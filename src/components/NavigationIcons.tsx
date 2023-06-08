@@ -20,7 +20,7 @@ export function NavigationIcons ({color, focused, route, size}: NavigationIconsI
           ? 'person'
           : 'person-outline';
       } else if (route.name === 'Favorite') {
-        iconName = focused ? 'star' : 'star-outline';
+        iconName = focused ? 'heart' : 'heart-outline';
       } 
   
       return <Ionicons name={iconName} size={25} color={color} />;

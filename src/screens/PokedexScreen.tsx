@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { PokemonList } from "../components/PokemonList";
 
 export function PokedexScreen({ navigation }: StackScreenProps<PokedexStackParamList, "Pokedex">): JSX.Element {
-  const { pokemons } = useGetPokemons();
+  const { pokemons, fetchPokemons, isNext } = useGetPokemons();
 
   const selectPokemon = (pokemon: Pokemon) => {
     navigation.navigate("Pokemon", pokemon);
@@ -15,7 +15,7 @@ export function PokedexScreen({ navigation }: StackScreenProps<PokedexStackParam
   
   return (
       <View>
-        <PokemonList selectPokemon={selectPokemon} pokemons={pokemons}/>
+        <PokemonList selectPokemon={selectPokemon} pokemons={pokemons} fetchPokemons={fetchPokemons} isNext={isNext}/>
       </View>   
     )
 }

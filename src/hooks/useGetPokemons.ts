@@ -3,12 +3,19 @@ import { API_HOST } from "../utils/constants";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
 
 const resumeData = (data: PokemonData[]): Pokemon[] => {
-    return data.map(item => ({
-        name: item.name,
-        order: item.order,
-        sprite: item.sprites.other.home.front_default,
-        type: item.types[0].type.name
-    }))
+    // const types: string[] = [];
+    
+    return data.map(item => {
+        const types = item.types.map(iter => iter.type.name);
+        
+        
+        return {
+            name: item.name,
+            order: item.id,
+            sprite: item.sprites.other.home.front_default,
+            types
+        }
+    })
 }
 
 async function fetchPokemon (url: string): Promise<PokemonData> {
@@ -24,17 +31,21 @@ async function fetchPokemon (url: string): Promise<PokemonData> {
 
 export function useGetPokemons() {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+    const [page, setPage] = useState<number>(0);
+    const [isNext, setNext] = useState<boolean>(true);
 
     async function fetchPokemons () {
         try {
-            const url = `${API_HOST}/pokemon?limit=20&offset=0`;
+            const url = `${API_HOST}/pokemon?limit=20&offset=${page * 20}`;
             const response = await fetch(url);
             const data: PokemonList = await response.json();
-            const PokemonData: PokemonData[]= await Promise.all(data.results.map((result) => (
+            const pokemonData: PokemonData[]= await Promise.all(data.results.map((result) => (
                 fetchPokemon(result.url)
             )));
-            
-            setPokemons(resumeData(PokemonData));
+            // console.log(pokemonData[0]);
+            setNext(data.next === null ?false:true);
+            setPokemons([...pokemons, ...resumeData(pokemonData)]);
+            setPage(page+1);
         } catch (error) {
             throw error;
         };
@@ -46,6 +57,8 @@ export function useGetPokemons() {
     , [])
 
     return {
-        pokemons
+        pokemons,
+        fetchPokemons,
+        isNext
     }
 }

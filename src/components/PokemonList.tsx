@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 
 import { Pokemon } from "../types/pokemon";
 import { PokemonCard } from "./PokemonCard";
@@ -6,41 +6,51 @@ import { PokemonCard } from "./PokemonCard";
 interface PokemonListI {
     selectPokemon: (pokemon: Pokemon) => void,
     pokemons: Pokemon[],
+    fetchPokemons: () => Promise<void>,
+    isNext: boolean,
 }
 
 
-export function PokemonList({ selectPokemon, pokemons }: PokemonListI) {
+export function PokemonList({ selectPokemon, pokemons, fetchPokemons, isNext }: PokemonListI) {
     return (
         <FlatList
             data={pokemons}
-            renderItem={({item}) => <PokemonCard pokemon={item} onPress={selectPokemon}/>}
+            renderItem={({item}) => <PokemonCard key={item.order} pokemon={item} onPress={selectPokemon}/>}
             keyExtractor={item => item.order.toString()}
-            numColumns={2}
-            contentContainerStyle={styles.pokemonList}
-            columnWrapperStyle={{justifyContent: "space-evenly"}}
+            // key={}
+            // numColumns={2}
+            contentContainerStyle={[styles.pokemonList, styles.border]}
+            // columnWrapperStyle={{justifyContent: "space-evenly"}}
             // style={{flex: 1}}
+            onEndReached={isNext && fetchPokemons}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+                isNext && 
+                <ActivityIndicator
+                    size={"large"}
+                    style={styles.spinner}
+                    color={"#AEAEAE"}
+                />
+            }
         />
     )
 }
 
 const styles = StyleSheet.create({
     pokemonList: {
-      // paddingHorizontal: 5,
-    //   backgroundColor: "white"
-
-    //   flex: 1
-    // flexDirection: "row",
-    // flexWrap: "wrap",
-    // marginHorizontal: 1,
-        // width: win
-        // ,
-        // alignItems: "center",
-        // flexGrow: "",
-        // justifyContent: "space-around",
-
-        // alignContent: "space-between"
-        // borderColor: "red",
-        // borderWidth: 1,
-        // borderRadius: 1
-    }
+        // flex: 1,
+        // justifyContent: "center",
+        // alignContent: "center",
+        padding: 20,
+        // alignItems: "center"
+    },
+    spinner: {
+        marginTop: 20,
+        marginBottom: 60
+    },
+    border: {
+        borderColor: "red",
+        borderWidth: 1,
+        borderRadius: 1
+    },
 });

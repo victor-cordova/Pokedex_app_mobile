@@ -58,11 +58,11 @@ export interface Pokemon {
     order: number,
     name: string,
     sprite: string,
-    type: string,
+    types: string[],
 }
 
 export interface PokemonData {
-    order: number,
+    id: number,
     name: string,
     sprites: {
         other: {

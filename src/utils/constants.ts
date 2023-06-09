@@ -42,61 +42,22 @@ export const TYPE_COLORS: Record<string, string> = {
   water: "#2648DC",
 }
 
+export enum STATS {
+  "HP" = "HP", 
+  "ATK" = "ATK", 
+  "DEF" = "DEF", 
+  "SPD" = "SPD", 
+  "EXP" = "EXP",
+  // "ss" = "SS",
+}
 
+export const STATS_COLORS: Record<STATS, string> = {
+  HP: "#D53846",
+  ATK: "#FEA623",
+  DEF: "#0092EB",
+  SPD: "#8CB1C2",
+  EXP: "#378E3A"
+}
+// StatsI.
 
-// <color name="colorPrimary">#D53A47</color>
-// <color name="colorPrimaryDark">#D53A47</color>
-// <color name="colorAccent">#D53A47</color>
-// <color name="background">#2B292B</color>
-// <color name="background800">#424242</color>
-// <color name="background900">#212121</color>
-
-
-
-// <color name="white_12">#fafafa</color>
-// <color name="white_56">#8effffff</color>
-// <color name="white_70">#b2ffffff</color>
-// <color name="white_87">#ddffffff</color>
-// <color name="white_93">#edf8f8f8</color>
-// <color name="white">#ffffff</color>
-// <color name="gray_21">#B1A5A5</color>
-
-
-
-// <color name="black">#000000</color>
-// <color name="black_70">#B3000000</color>
-// <color name="skyBlue">#57A8D8</color>
-// <color name="yellow">#FBC02D</color>
-
-
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-// <color name=""></color>
-
-
-// <color name="md_yellow_100">#FFD600</color>
-// <color name="md_yellow_200">#FBC02D</color>
-// <color name="md_amber_700">#FFA000</color>
-// <color name="md_orange_100">#FFA726</color>
-// <color name="md_orange_200">#FF6D00</color>
-// <color name="md_green_100">#81C784</color>
-// <color name="md_green_200">#388E3C</color>
-
-
-
-// <color name="md_blue_100">#81D4fA</color>
-// <color name="md_blue_200">#0091EA</color>
+// STATS_COLORS[StatsV2.ATK];

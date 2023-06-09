@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { API_HOST } from "../utils/constants";
+import { API_HOST, STATS } from "../utils/constants";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
 
 const resumeData = (data: PokemonData[]): Pokemon[] => {
@@ -13,7 +13,30 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
             name: item.name,
             order: item.id,
             sprite: item.sprites.other.home.front_default,
-            types
+            types,
+            height: item.height,
+            weight: item.weight,
+            stats: [{
+                name: STATS.EXP,
+                stat: item.base_experience
+            },
+            {
+                name: STATS.HP,
+                stat: item.stats[0].base_stat
+            },
+            {
+                name: STATS.ATK,
+                stat: item.stats[1].base_stat
+            },
+            {
+                name: STATS.DEF,
+                stat: item.stats[2].base_stat
+            },
+            {
+                name: STATS.SPD,
+                stat: item.stats[5].base_stat
+            },
+            ]
         }
     })
 }

@@ -55,11 +55,19 @@ export interface PokemonList {
 // data.sprites.other.home.front_default
 
 export interface Pokemon {
-    order: number,
+    height: number,
     name: string,
+    order: number,
     sprite: string,
     types: string[],
+    weight: number,
+    stats: {
+        name: StatsI,
+        stat: number
+    }[],
 }
+
+type PokemonStats = "hp" | "attack" | "defense" | "special-attack" | "special-defense" | "speed";
 
 export interface PokemonData {
     id: number,
@@ -76,11 +84,14 @@ export interface PokemonData {
         type: {
             name: string
         }
+    }[],
+    height: number,
+    weight: number,
+    base_experience: number,
+    stats: {
+        base_stat: number,
+        stat: {
+            name: PokemonStats
+        }
     }[]
-    // is_main_series: boolean;
-    // generation: PokemonGeneration;
-    // names: PokemonName[];
-    // effect_entries: PokemonEffectEntry[];
-    // effect_changes?: PokemonEffectChange[];
-    // flavor_text_entries?: PokemonFlavorTextEntry[];
 }

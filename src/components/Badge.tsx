@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import { getPokemonColor, getPokemonColorV2 } from "../utils/getPokemonColor";
+import { getPokemonTypeColor } from "../utils/getColors";
 
 interface TypeBadgeI {
     type: string, 
@@ -9,7 +9,7 @@ interface TypeBadgeI {
 export function Badge({type}: TypeBadgeI) {
     return (
         <View style={[styles.badge, styles.border, {
-            backgroundColor: getPokemonColorV2(type)
+            backgroundColor: getPokemonTypeColor(type)
             // backgroundColor: getPokemonColor(type)
         }]}> 
             <Text style={styles.border}>{type}</Text>

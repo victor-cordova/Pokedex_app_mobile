@@ -2,6 +2,9 @@ import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/typ
 import { StatBar } from "../components/StatBar";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { PokedexStackParamList } from "../types/navigation";
+import { Badge } from "./Badge";
+// import { StatsI } from "../utils/constants";
+import { getPokemonStatColor } from "../utils/getColors";
 
 type NavigatorI = StackScreenProps<PokedexStackParamList, "Pokemon">;
 // route
@@ -21,6 +24,8 @@ export function DetailedCard ({navigator}: DetailedCardI) {
                     // style={{ width: 20, height: 20}}  
                     style={[styles.sprite, styles.border]}
                 />
+
+                <Text style={[styles.name, styles.border]}>{navigator.route.params.name}</Text>
                 
                 <View style={[styles.orderContainer, styles.border]}>
                     <Image 
@@ -32,16 +37,19 @@ export function DetailedCard ({navigator}: DetailedCardI) {
                         {`${navigator.route.params.order}`.padStart(4, "0")}
                     </Text>
                 </View>
+            </View>
 
-                <Text style={[styles.name, styles.border]}>{navigator.route.params.name}</Text>
+            <View style={[styles.types, styles.border]}>
+                {navigator.route.params.types.map(type => <Badge type={type}/>)}
             </View>
             
-        <View style={[styles.info, styles.border]}>
+            <View style={[styles.border]}>
                 
 
             {/* <View style={[styles.types, styles.border]}>
                 {pokemon.types.map(type => <Badge type={type}/>)}
             </View> */}
+            {navigator.route.params.stats.map(stat => <StatBar key={stat.name} color={getPokemonStatColor(stat.name)} stat={stat.stat}/>)}
             
             {/* {pokemon.type} */}
             </View>

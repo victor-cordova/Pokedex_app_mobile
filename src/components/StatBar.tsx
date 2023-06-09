@@ -1,12 +1,20 @@
 import { useEffect } from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
 
+// type Colors = 
+
+// interface StatsI {
+  
+// }
+
 interface StatBarI {
-    stat: number
+    stat: number,
+    color: string,
 }
 
-export function StatBar ({ stat }) {
+export function StatBar ({ stat, color }: StatBarI) {
   const width = new Animated.Value(0);
+  console.log(stat);
 
   useEffect(() => {
     Animated.timing(width, {
@@ -20,7 +28,8 @@ export function StatBar ({ stat }) {
     <View style={[styles.container, styles.border]}>
       <Animated.View
         style={[styles.bar, styles.border, {
-            width
+            width,
+            backgroundColor: color
         }]}
       />
     </View>
@@ -37,7 +46,7 @@ const styles = StyleSheet.create({
     },
     bar: {
         height: '100%',
-        backgroundColor: '#6200ee',
+        // backgroundColor: '#6200ee',
 
         borderRadius: 10
     },

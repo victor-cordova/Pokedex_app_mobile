@@ -1,9 +1,9 @@
 import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 
 import { Pokemon } from "../types/pokemon";
-import { PokemonCard } from "./PokemonCard";
+import { Card } from "./Card";
 
-interface PokemonListI {
+interface ListI {
     selectPokemon: (pokemon: Pokemon) => void,
     pokemons: Pokemon[],
     fetchPokemons: () => Promise<void>,
@@ -11,15 +11,15 @@ interface PokemonListI {
 }
 
 
-export function PokemonList({ selectPokemon, pokemons, fetchPokemons, isNext }: PokemonListI) {
+export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) {
     return (
         <FlatList
             data={pokemons}
-            renderItem={({item}) => <PokemonCard key={item.order} pokemon={item} onPress={selectPokemon}/>}
+            renderItem={({item}) => <Card key={item.order} pokemon={item} onPress={selectPokemon}/>}
             keyExtractor={item => item.order.toString()}
             // key={}
             // numColumns={2}
-            contentContainerStyle={[styles.pokemonList, styles.border]}
+            contentContainerStyle={[styles.list, styles.border]}
             // columnWrapperStyle={{justifyContent: "space-evenly"}}
             // style={{flex: 1}}
             onEndReached={isNext && fetchPokemons}
@@ -37,7 +37,7 @@ export function PokemonList({ selectPokemon, pokemons, fetchPokemons, isNext }: 
 }
 
 const styles = StyleSheet.create({
-    pokemonList: {
+    list: {
         // flex: 1,
         // justifyContent: "center",
         // alignContent: "center",

@@ -4,12 +4,12 @@ import { Pokemon } from "../types/pokemon";
 import { Badge } from "./Badge";
 // import iconPokeball from "../../assets/icon-pokeball";
 
-interface PokemonCardI {
+interface CardI {
     pokemon: Pokemon,
     onPress: (pokemon: Pokemon) => void,
 }
 
-export function PokemonCard ({ pokemon, onPress }: PokemonCardI) {
+export function Card ({ pokemon, onPress }: CardI) {
 
   return (
     <TouchableOpacity onPress={() => onPress(pokemon)} style={[styles.card, styles.border]}>

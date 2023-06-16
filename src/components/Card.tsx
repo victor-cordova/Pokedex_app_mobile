@@ -2,15 +2,28 @@ import { View, Text, FlatList, StyleSheet, StatusBar, Image, ImageBackground } f
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Pokemon } from "../types/pokemon";
 import { Badge } from "./Badge";
+import { getPokemonTypeColor } from "../utils/getColors";
+
 // import iconPokeball from "../../assets/icon-pokeball";
 
 interface CardI {
-    pokemon: Pokemon,
-    onPress: (pokemon: Pokemon) => void,
+  pokemon: Pokemon,
+  onPress: (pokemon: Pokemon) => void,
+}
+
+interface TypeListI {
+  types: string[]
+}
+
+function TypeList({ types }: TypeListI) {
+  return (
+    <View style={[styles.typesList, styles.border]}>
+      {types.map((type, index) => <Badge isDetailed={false} key={index} text={type} color={getPokemonTypeColor(type)}/>)}
+    </View>
+  )
 }
 
 export function Card ({ pokemon, onPress }: CardI) {
-
   return (
     <TouchableOpacity onPress={() => onPress(pokemon)} style={[styles.card, styles.border]}>
         <View style={[styles.info, styles.border]}>
@@ -18,7 +31,7 @@ export function Card ({ pokemon, onPress }: CardI) {
             <View style={styles.orderContainer}>
               <Image 
                 source={require("../../assets/icon-pokeball.png")}
-                style={{ width: 20, height: 20}}  
+                style={styles.icon}  
               />
               <Text style={[styles.order, styles.border]}>
                 {`${pokemon.order}`.padStart(4, "0")}
@@ -28,16 +41,9 @@ export function Card ({ pokemon, onPress }: CardI) {
             <Text style={[styles.name, styles.border]}>{pokemon.name}</Text>
           </View>
 
-          <View style={[styles.types, styles.border]}>
-            {pokemon.types.map(type => <Badge type={type}/>)}
-          </View>
-          
-          {/* {pokemon.type} */}
+          <TypeList types={pokemon.types}/>
         </View>
-        {/* <View style={[styles.imgContainer, styles.border]}> */}
           <Image source={{uri: pokemon.sprite}} style={[styles.sprite, styles.border]}/>
-        {/* </View> */}
-        
     </TouchableOpacity>
   )
 };
@@ -63,18 +69,14 @@ const styles = StyleSheet.create({
     },
     info: {
       height: "100%",
-      width: 200,
-      // backgroundColor: "grey",
+      width: 220,
+
       borderTopLeftRadius: 10,
       borderTopRightRadius: 10,
       
 
       paddingHorizontal: 10,
       
-      // alignSelf: "flex-start",
-
-      // flexDirection: "c",
-      // alignItems: "center",
       justifyContent: "space-between"
     },
     order: {
@@ -88,31 +90,26 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
     },
-    // imgContainer: {
-    //   // height: 90,
-    //   // width: 90,
-    //   // hei
-
-    //   flex: 1,
-    //   alignItems: "center",
-    //   justifyContent: "center",
-    //   // alignContent: "center"
-    // },
+    icon: { 
+      width: 20, 
+      height: 20,
+    },
     sprite: { 
-      // height: 60,
-      // width: 90,
         width: 90, 
         height: 90,
-        // transform: "translateY(50%)",
 
-        // flex: 1,
-        alignSelf: "flex-end",
+        // flex: 1
     },
     text: {
 
     },
-    types: {
+    typesList: {
+      width: "100%",
+
+      justifyContent: "space-between",
+
       flexDirection: "row",
+
       // alignSelf: "center"
     },
     border: {

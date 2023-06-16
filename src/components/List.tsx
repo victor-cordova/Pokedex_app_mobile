@@ -15,13 +15,9 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
     return (
         <FlatList
             data={pokemons}
-            renderItem={({item}) => <Card key={item.order} pokemon={item} onPress={selectPokemon}/>}
-            keyExtractor={item => item.order.toString()}
-            // key={}
-            // numColumns={2}
+            renderItem={({ item }) => <Card pokemon={item} onPress={selectPokemon}/>}
+            keyExtractor={(item, index) => String(index)}
             contentContainerStyle={[styles.list, styles.border]}
-            // columnWrapperStyle={{justifyContent: "space-evenly"}}
-            // style={{flex: 1}}
             onEndReached={isNext && fetchPokemons}
             onEndReachedThreshold={0.5}
             ListFooterComponent={
@@ -38,11 +34,7 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
 
 const styles = StyleSheet.create({
     list: {
-        // flex: 1,
-        // justifyContent: "center",
-        // alignContent: "center",
         padding: 20,
-        // alignItems: "center"
     },
     spinner: {
         marginTop: 20,

@@ -1,3 +1,5 @@
+import { STATS } from "../utils/constants";
+
 interface PokemonAbility {
     name: string;
     url: string;
@@ -62,9 +64,10 @@ export interface Pokemon {
     types: string[],
     weight: number,
     stats: {
-        name: StatsI,
+        name: STATS,
         stat: number
     }[],
+    abilities: string[]
 }
 
 type PokemonStats = "hp" | "attack" | "defense" | "special-attack" | "special-defense" | "speed";
@@ -92,6 +95,11 @@ export interface PokemonData {
         base_stat: number,
         stat: {
             name: PokemonStats
+        }
+    }[],
+    abilities: {
+        ability: {
+            name: string,
         }
     }[]
 }

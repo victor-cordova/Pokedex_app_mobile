@@ -3,11 +3,9 @@ import { API_HOST, STATS } from "../utils/constants";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
 
 const resumeData = (data: PokemonData[]): Pokemon[] => {
-    // const types: string[] = [];
-    
     return data.map(item => {
         const types = item.types.map(iter => iter.type.name);
-        
+        const abilities = item.abilities.map(ability => ability.ability.name);
         
         return {
             name: item.name,
@@ -16,10 +14,8 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
             types,
             height: item.height,
             weight: item.weight,
-            stats: [{
-                name: STATS.EXP,
-                stat: item.base_experience
-            },
+            abilities: abilities.slice(0, 2),
+            stats: [
             {
                 name: STATS.HP,
                 stat: item.stats[0].base_stat
@@ -35,6 +31,10 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
             {
                 name: STATS.SPD,
                 stat: item.stats[5].base_stat
+            },
+            {
+                name: STATS.EXP,
+                stat: item.base_experience
             },
             ]
         }
@@ -59,13 +59,13 @@ export function useGetPokemons() {
 
     async function fetchPokemons () {
         try {
-            const url = `${API_HOST}/pokemon?limit=20&offset=${page * 20}`;
+            const url = `${API_HOST}/pokemon?limit=10&offset=${page * 10}`;
             const response = await fetch(url);
             const data: PokemonList = await response.json();
             const pokemonData: PokemonData[]= await Promise.all(data.results.map((result) => (
                 fetchPokemon(result.url)
             )));
-            // console.log(pokemonData[0]);
+
             setNext(data.next === null ?false:true);
             setPokemons([...pokemons, ...resumeData(pokemonData)]);
             setPage(page+1);

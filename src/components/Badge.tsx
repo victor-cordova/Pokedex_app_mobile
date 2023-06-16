@@ -1,36 +1,42 @@
 import { View, Text, StyleSheet } from "react-native";
-import { getPokemonTypeColor } from "../utils/getColors";
 
 interface TypeBadgeI {
-    type: string, 
-    // color: string,
+    text: string,
+    isDetailed: boolean,
+    color?: string,
+    unitOfMeasure?: string,
 }
   
-export function Badge({type}: TypeBadgeI) {
+export function Badge({color, text, isDetailed, unitOfMeasure}: TypeBadgeI) {
     return (
         <View style={[styles.badge, styles.border, {
-            backgroundColor: getPokemonTypeColor(type)
-            // backgroundColor: getPokemonColor(type)
+            backgroundColor: color || "#F2F4FA",
+            width: isDetailed? 130: 90,
+            height: isDetailed?40: 30,
         }]}> 
-            <Text style={styles.border}>{type}</Text>
+            <Text style={[styles.text, styles.border]}>{text}{unitOfMeasure?` ${unitOfMeasure}`:""}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     badge:  {
-        width: 80,
-        alignItems: "center",
+        // width: ,
+        // height: 35,
+        // width: 90,
+        
 
-        marginRight: 10,
-        borderColor: "black",
-        borderWidth: 1,
-        borderRadius: 15,
-
-        padding: 5,
-        // paddingHorizontal: 5,
+        // marginHorizontal: 10,
+        borderRadius: 10,
         // paddingVertical: 5,
-        // marginVertical: 10,
+
+        alignItems: "center",
+        justifyContent: "center"
+        // alignSelf: "center"
+    },
+    text: {
+        fontSize: 13,
+        // fontWeight: "300"
     },
     border: {
         // borderColor: "red",

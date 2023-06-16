@@ -48,7 +48,6 @@ export enum STATS {
   "DEF" = "DEF", 
   "SPD" = "SPD", 
   "EXP" = "EXP",
-  // "ss" = "SS",
 }
 
 export const STATS_COLORS: Record<STATS, string> = {
@@ -58,6 +57,3 @@ export const STATS_COLORS: Record<STATS, string> = {
   SPD: "#8CB1C2",
   EXP: "#378E3A"
 }
-// StatsI.
-
-// STATS_COLORS[StatsV2.ATK];

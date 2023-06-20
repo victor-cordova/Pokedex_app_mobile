@@ -1,9 +1,9 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-import { StatBar } from "../components/StatBar";
+import { StatBar } from "../StatBar";
 
-import { STATS } from "../utils/constants";
-import { getPokemonStatColor } from "../utils/getColors";
-import { Pokemon } from "../types/pokemon";
+import { STATS } from "../../utils/constants";
+import { getPokemonStatColor } from "../../utils/getColors";
+import { Pokemon } from "../../types/pokemon";
 
 interface StatsI {
     pokemon: Pokemon
@@ -52,7 +52,7 @@ function BarLabeled({index, label, stat}: BarLabeledI) {
     )
 }
 
-export function Stats({ pokemon }: StatsI) {
+export default function Stats({ pokemon }: StatsI) {
     return (
         <View style={[styles.border, {
             width: "100%",

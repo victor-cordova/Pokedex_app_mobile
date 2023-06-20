@@ -4,7 +4,7 @@ import { DetailedCard } from "../components/DetailedCard";
 
 type PropsI = StackScreenProps<PokedexStackParamList, "Pokemon">;
 
-export function PokemonScreen(navigator: PropsI): JSX.Element {
+export default function Pokemon (navigator: PropsI): JSX.Element {
   return (   
       <DetailedCard navigator={navigator}/>
     )

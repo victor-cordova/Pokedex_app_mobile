@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, useWindowDimensions } from "react-native";
-import { Badge } from "./Badge";
-import { Pokemon } from "../types/pokemon";
-import { getPokemonTypeColor } from "../utils/getColors";
+import { Badge } from "../Badge";
+import { Pokemon } from "../../types/pokemon";
+import { getPokemonTypeColor } from "../../utils/getColors";
 
 interface AboutI {
     pokemon: Pokemon
@@ -17,42 +17,55 @@ function BadgeLabeled( { label, text, unitOfMeasure }: BadgeLabeledI ) {
     return (
         <View style={[{
             alignItems: "center",
-            width: "100%"
+            // width: "100%"
         }, styles.border]}>
             <Text style={[{
                 fontSize: 15,
                 fontWeight: "bold",
 
                 marginBottom: 10,
+
+                alignSelf: "flex-start"
             }, styles.border]}>{label}</Text>
+            {/* <Text style={{
+                alignSelf: "center"
+            }}>{text} {unitOfMeasure}</Text> */}
             <Badge isDetailed={true} text={text} unitOfMeasure={unitOfMeasure}/>
         </View>
     )
 }
 
-export function About({pokemon}:AboutI) {
+export default function About({pokemon}:AboutI) {
     // const size = useWindowDimensions();
     const abilities = pokemon.abilities.map(ability => ability.length >= 10?`${ability.slice(0, 9)}...`:ability);
 
     return (
         <View style={[styles.info, styles.border]}>
+            <Text style={[{
+                fontSize: 15,
+                fontWeight: "bold",
+
+                marginBottom: 10,
+
+                // alignSelf: "flex-start"
+            }, styles.border]}>Type</Text>
             <View style={[styles.types, styles.border]}>
                 {pokemon.types.map((type, index) => 
                     <Badge color={getPokemonTypeColor(type)} text={type} key={index} isDetailed={true}/>
                 )}
             </View>
             
-            <View style={[styles.types, styles.border]}>
+            {/* <View style={[styles.types, styles.border]}> */}
                 <BadgeLabeled label="Height" text={String(pokemon.height)} unitOfMeasure="mt"/>
                 <BadgeLabeled label="Weight" text={String(pokemon.weight)} unitOfMeasure="kg"/>
-            </View>
+            {/* </View> */}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     info: {
-        alignItems: "center",
+        // alignItems: "center",
         width: "100%",
         marginVertical: 10
     },

@@ -1,14 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { FavoriteScreen } from '../screens/FavoriteScreen';
-import { AccountScreen } from '../screens/AccountScreen';
+import FavoriteScreen from '../screens/Favorite';
+import AccountScreen from '../screens/Account';
 import { RootStackParamList } from '../types/navigation';
 
-import { PokedexNavigation } from './PokedexNavigation';
-import { NavigationIcons } from '../components/NavigationIcons';
+import PokedexNavigation from './Pokedex';
+import NavigationIcons from '../components/icons/Navigation';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
-export function NavigationTab(): JSX.Element {
+export default function BottomTab(): JSX.Element {
   return (
     <Tab.Navigator initialRouteName='PokedexNavigation' screenOptions={({ route }) => ({
       tabBarIcon: ({color, focused, size}) => 
@@ -21,6 +21,9 @@ export function NavigationTab(): JSX.Element {
       tabBarActiveTintColor: "tomato",
       tabBarInactiveTintColor: "gray",
       headerTitleAlign: "center",
+      // headerTransparent: true,
+      // title: ""
+      headerShown: false
     })}
     >
       <Tab.Screen name="Favorite" component={FavoriteScreen}/>

@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 
-import { PokemonScreen } from '../screens/PokemonScreen';
+import PokemonScreen from '../screens/Pokemon';
 import { PokedexStackParamList } from '../types/navigation';
 import { createStackNavigator } from '@react-navigation/stack';
-import { PokedexScreen } from '../screens/PokedexScreen';
+import PokedexScreen from '../screens/Pokedex';
 
 const PokedexN = createStackNavigator<PokedexStackParamList>();
 
@@ -11,7 +11,7 @@ interface IProps {
   focused: boolean
 }
 
-export function PokedexNavigation(): JSX.Element {
+export default function Pokedex(): JSX.Element {
   return (
     <PokedexN.Navigator screenOptions={() => ({
       tabBarActiveTintColor: "tomato",

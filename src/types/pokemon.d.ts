@@ -67,7 +67,8 @@ export interface Pokemon {
         name: STATS,
         stat: number
     }[],
-    abilities: string[]
+    abilities: string[],
+    moves: string[]
 }
 
 type PokemonStats = "hp" | "attack" | "defense" | "special-attack" | "special-defense" | "speed";
@@ -100,6 +101,11 @@ export interface PokemonData {
     abilities: {
         ability: {
             name: string,
+        }
+    }[],
+    moves: {
+        move: {
+            name: string
         }
     }[]
 }

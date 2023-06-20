@@ -6,7 +6,7 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
     return data.map(item => {
         const types = item.types.map(iter => iter.type.name);
         const abilities = item.abilities.map(ability => ability.ability.name);
-        
+        const moves = item.moves.slice(0, 10).map(move => move.move.name);
         return {
             name: item.name,
             order: item.id,
@@ -36,7 +36,8 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
                 name: STATS.EXP,
                 stat: item.base_experience
             },
-            ]
+            ],
+            moves: moves,
         }
     })
 }

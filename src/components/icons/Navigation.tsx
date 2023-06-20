@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../types/navigation';
-import { PokedexIcon } from './PokedexIcon';
+import { RootStackParamList } from '../../types/navigation';
+import PokedexIcon from './Pokedex';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 interface NavigationIconsI {
@@ -10,7 +10,7 @@ interface NavigationIconsI {
     route: RouteProp<RootStackParamList, keyof RootStackParamList>
 }
 
-export function NavigationIcons ({color, focused, route, size}: NavigationIconsI): JSX.Element {
+export default function Navigation ({color, focused, route, size}: NavigationIconsI): JSX.Element {
     let iconName = "";
   
       if (route.name === 'PokedexNavigation') {

@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-export function FavoriteScreen(): JSX.Element {
+export default function Favorite(): JSX.Element {
   return (
       <View>
         <Text>This is settingsScreen</Text>

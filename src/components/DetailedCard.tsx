@@ -1,13 +1,12 @@
 import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
-// import { StatBar } from "../components/StatBar";
 import { StyleSheet, View, Image, Text, FlatList } from "react-native";
 import { PokedexStackParamList } from "../types/navigation";
+import { SECTIONS, SectionBarNav } from "./SectionBarNav";
+import AboutScreen from './sections/About'
+import MovesScreen from './sections/Moves'
+import StatsScreen from './sections/Stats'
 import { useState } from "react";
-// import { Badge } from "./Badge";
-// import { STATS } from "../utils/constants";
-// import { getPokemonStatColor, getPokemonTypeColor } from "../utils/getColors";
-// import { Pokemon } from "../types/pokemon";
-// import { About } from "./About";
+import { Pokemon } from "../types/pokemon";
 
 type NavigatorI = StackScreenProps<PokedexStackParamList, "Pokemon">;
 // route
@@ -15,50 +14,28 @@ interface DetailedCardI {
     navigator: NavigatorI
 }
 
-interface ListI {
-    sectionSelected: SECTIONS,
-    switchSection: (section: SECTIONS) => void,
-    sections: SECTIONS[]
+interface SectionHandlerI {
+    selected: SECTIONS,
+    pokemon: Pokemon,
 }
 
-enum SECTIONS {
-    ABOUT = "about",
-    STATS = "stats",
-    MOVES = "moves",
-}
-
-interface RenderFunctionI {
-    item: SECTIONS,
-    onPress: (section: SECTIONS) => void
-}
-
-function List({sectionSelected, switchSection, sections}: ListI) {
-    function RenderFunction({item, onPress}: RenderFunctionI) {
-        return (
-            <View style={[styles.list, styles.border]}>
-                <Text 
-                    onPress={() => onPress(item)} 
-                    style={[styles.list, styles.border, {
-                        backgroundColor: item === sectionSelected?"blue":"red"
-                    }]}
-                >
-                    {item}
-                </Text>
-            </View>
+function SectionHandler({ selected, pokemon }: SectionHandlerI) {
+    switch (selected) {
+        case SECTIONS.ABOUT:
+            return <AboutScreen pokemon={pokemon}/>
+            // break;
+    
+        case SECTIONS.MOVES:
+            return <MovesScreen abilities={pokemon.abilities} moves={pokemon.moves}/>
+            // break;
+    
+        case SECTIONS.STATS:
+            return <StatsScreen pokemon={pokemon}/>
+            // break;
             
-        )
+        default:
+            break;
     }
-    return (
-        <FlatList
-            data={sections}
-            renderItem={({item})=> <RenderFunction item={item} onPress={switchSection}/>}
-            keyExtractor={(item, index) => String(index)}
-            horizontal={true}
-            // contentContainerStyle={[styles.list, styles.border]}
-            style={[styles.list, styles.border]}
-            // extraData={selectedId}
-        />
-    )
 }
 
 export function DetailedCard ({navigator}: DetailedCardI) {
@@ -93,8 +70,9 @@ export function DetailedCard ({navigator}: DetailedCardI) {
                     </Text>
                 </View>
             </View>
-            <List sectionSelected={sectionSelected} sections={sections} switchSection={switchSection}/>
+            <SectionBarNav sectionSelected={sectionSelected} sections={sections} switchSection={switchSection}/>
             {/* <About pokemon={pokemon}/> */}
+            <SectionHandler pokemon={pokemon} selected={sectionSelected}/>
         </View>    
     )
 }
@@ -121,26 +99,6 @@ const styles = StyleSheet.create({
     orderContainer: {
         alignSelf: "center",
         flexDirection:'row'
-    },
-    // icon: { 
-    //     width: 20, 
-    //     height: 20
-    // },
-    info: {
-        height: "100%",
-        width: 200,
-        // backgroundColor: "grey",
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        
-  
-        paddingHorizontal: 10,
-        
-        // alignSelf: "flex-start",
-  
-        // flexDirection: "c",
-        // alignItems: "center",
-        justifyContent: "space-between"
     },
     order: {
         color: "#fff",

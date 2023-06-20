@@ -1,11 +1,11 @@
 import { Image } from 'react-native';
 
-interface PokemonIconI {
+interface PokedexI {
     focused: boolean,
     size: number,
 }
 
-export function PokedexIcon({focused, size}: PokemonIconI) {
+export default function Pokedex({focused, size}: PokedexI) {
     const logo = {
       uri: focused?
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACwElEQVR4nO2aTWsUQRCGn0uMKBJRWPWg3pT4GzSCqCgmJGA8+AWiuXkQxX+gAY1egojkmr+gMQkmJmBEyVnMpyJoogdd0PWgRraloYRl6N2Z6e7Z6V1S8MKw211V73R3TdXUwLo0r2wHeoD7wFNgASgCfwRF+W0EuAd0A9sIRFqBi8A48BdQKaHnjAIXgA15ENgI3ARWLZyvhhXghtycusgp4J1HAlEsASezXoVBoJwhCVWBYWBTFgf5ZZ0IqArMAjt8kdib8VaKwzKwx5VEAZjPkYSqODe7XM7EbAAklOC1bUQbCsB5FcHDtCROBOC0MkBHzGNpttSHAJxWNQ5/oi12PQBnVQyuxpHQTL8E4KiKwWpcbnbWk6FnwBVgH7BZoK/7gAlPNs7UIjLhId4fTLB9D8led7E1Vk35VqkbbBW/ANpILnrsjIO9X8AWk+JeB6XzKUlU3rxFB7s9JqV3HWK73ipR0RXgNPBTMAV0GcYddsio+01Exi2VPTfoupPS+JSl7RETkTlLZZcMKxE3pzMy57Kl7TcmIkVLZe0RPdMWq9huafsrGUopgQM/aAApJSDyPUsHip62VpKDOxmZc8Dn1przdNi7EszRb2IyO+xjHsNvf43xtwzjkwQIZcATUsb+WtAPsw6Dvk4hWRJMGlbC9YF420TktKWyPFOUbpPStmZJGpE6QjlgOWEa3+HhXdlovQqrvkhhtd9zYdUbV+p+9mQoS6wALXHLfi0AR5Xry4f/q/I+AGdVFSymaQodqWP7IA3KwFFSyqMAHFcRPMBCWhzjvG+8cukzFhySSZ9YAnbSBI2e3Xhsvc3k1BMp0MDN0LL0Z7w3Q6O9E5eMNQ4LwHHqJK3SfvjkkcBHySpy+QJCGz0v356sWTi/Ji/ZzuVFoFqRpOv1AeCxhO1vwG+Bvn4r/w3IWJtibF1oBPkHPeSOgCfXszwAAAAASUVORK5CYII=":

@@ -21,13 +21,19 @@ export default function BottomTab(): JSX.Element {
       tabBarActiveTintColor: "tomato",
       tabBarInactiveTintColor: "gray",
       headerTitleAlign: "center",
+      tabBarLabelStyle: {
+        fontSize: 10
+      },
+      tabBarStyle: {
+        height: 80
+      },
       // headerTransparent: true,
       // title: ""
       headerShown: false
     })}
     >
       <Tab.Screen name="Favorite" component={FavoriteScreen}/>
-      <Tab.Screen name="PokedexNavigation" component={PokedexNavigation} options={{tabBarLabel: ""}}/>
+      <Tab.Screen options={{tabBarLabel: "Pokedex"}} name="PokedexNavigation" component={PokedexNavigation}/>
       <Tab.Screen name="Account" component={AccountScreen}/>
     </Tab.Navigator>
   );

@@ -57,3 +57,46 @@ export const STATS_COLORS: Record<STATS, string> = {
   SPD: "#8CB1C2",
   EXP: "#378E3A"
 }
+
+export const COLORS_SCHEME = {
+  light: {
+    primary: {
+      off: "#CD0A0A",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+    secondary: {
+      off: "#EB8F8F",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+    tertiary: {
+      off: "#F1F3DE",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+  },
+  dark: {
+    primary: {
+      off: "#CC0A0A",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+    secondary: {
+      off: "#D54A4A",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+    tertiary: {
+      off: "#4D0404",
+      on: "",
+      container_off: "",
+      container_on: "",
+    },
+  } 
+};

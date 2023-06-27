@@ -11,8 +11,8 @@ export function Badge({color, text, isDetailed, unitOfMeasure}: TypeBadgeI) {
     return (
         <View style={[styles.badge, styles.border, {
             backgroundColor: color || "#F2F4FA",
-            width: isDetailed? 130: 90,
-            height: isDetailed?40: 30,
+            // width: isDetailed? 130: 90,
+            // height: isDetailed?40: 30,
         }]}> 
             <Text style={[styles.text, styles.border]}>{text}{unitOfMeasure?` ${unitOfMeasure}`:""}</Text>
         </View>
@@ -21,13 +21,14 @@ export function Badge({color, text, isDetailed, unitOfMeasure}: TypeBadgeI) {
 
 const styles = StyleSheet.create({
     badge:  {
-        // width: ,
-        // height: 35,
+        width: "100%",
+        height: 40,
         // width: 90,
         
 
         // marginHorizontal: 10,
-        borderRadius: 10,
+        borderRadius: 20,
+        paddingHorizontal: 24,
         // paddingVertical: 5,
 
         alignItems: "center",
@@ -35,8 +36,9 @@ const styles = StyleSheet.create({
         // alignSelf: "center"
     },
     text: {
-        fontSize: 13,
-        // fontWeight: "300"
+        fontSize: 14,
+        lineHeight: 20,
+        fontWeight: "500"
     },
     border: {
         // borderColor: "red",

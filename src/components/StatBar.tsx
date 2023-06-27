@@ -13,12 +13,13 @@ export function StatBar ({ stat, color, max }: StatBarI) {
   const width = new Animated.Value(0);
 
   //40 is subtracted from the 90% of the windowWidth, because each detailedCard width is 90% of the window. And the 40 is because has a 20 padding in both sides.
-  const statNormalized = (stat / max) * (windowWidth * 0.9 - 40);
+  // 300 and 1000 bug
+  const statNormalized = (stat / max) * (windowWidth - 30 - 32 - 32);
 
   useEffect(() => {
     Animated.timing(width, {
       toValue: statNormalized,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
   }, []);
@@ -31,43 +32,22 @@ export function StatBar ({ stat, color, max }: StatBarI) {
             backgroundColor: color
         }]}
       />
-        {/* <Text style={[styles.label, styles.border]}>
-        {stat} / {max}
-      </Text> */}
-        {/* </Animated.View> */}
-      
     </View>
   );
 };
 
 const styles = StyleSheet.create({
     container: { 
-        height: 20,  
+        height: 16,  
         width: '100%',
         backgroundColor: 'white',
-        borderRadius: 10,
-        // borderBottomLeftRadius: 10,
-        // borderBottomEndRadius: 10,
-
-        // flex: 1,
+        borderRadius: 20,
     },
     bar: {
         height: '100%',
-        borderRadius: 10,
-        // borderBottomRightRadius: 10,
+        borderRadius: 20,
 
         alignItems: "center"
-    },
-    label: {
-      width: 40,
-
-      position: "absolute",
-      right: -30,
-      // alignSelf: "flex-end",
-      fontSize: 7,
-      // fontWeight: "bold",
-      color: "#000",
-      // alignItems: "center"
     },
     border: {
         // borderColor: "red",

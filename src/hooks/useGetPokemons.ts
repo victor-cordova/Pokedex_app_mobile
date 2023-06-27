@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { API_HOST, STATS } from "../utils/constants";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
+import { capitalize } from "lodash";
 
 const resumeData = (data: PokemonData[]): Pokemon[] => {
     return data.map(item => {
-        const types = item.types.map(iter => iter.type.name);
+        const types = item.types.map(iter => capitalize(iter.type.name));
         const abilities = item.abilities.map(ability => ability.ability.name);
-        const moves = item.moves.slice(0, 10).map(move => move.move.name);
+        const moves = item.moves.slice(0, 8).map(move => move.move.name);
         return {
-            name: item.name,
+            name: capitalize(item.name),
             order: item.id,
             sprite: item.sprites.other.home.front_default,
             types,

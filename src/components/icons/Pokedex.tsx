@@ -1,4 +1,4 @@
-import { Image } from 'react-native';
+import { Image, StyleSheet, View, Text } from 'react-native';
 
 interface PokedexI {
     focused: boolean,
@@ -6,15 +6,29 @@ interface PokedexI {
 }
 
 export default function Pokedex({focused, size}: PokedexI) {
-    const logo = {
-      uri: focused?
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACwElEQVR4nO2aTWsUQRCGn0uMKBJRWPWg3pT4GzSCqCgmJGA8+AWiuXkQxX+gAY1egojkmr+gMQkmJmBEyVnMpyJoogdd0PWgRraloYRl6N2Z6e7Z6V1S8MKw211V73R3TdXUwLo0r2wHeoD7wFNgASgCfwRF+W0EuAd0A9sIRFqBi8A48BdQKaHnjAIXgA15ENgI3ARWLZyvhhXghtycusgp4J1HAlEsASezXoVBoJwhCVWBYWBTFgf5ZZ0IqArMAjt8kdib8VaKwzKwx5VEAZjPkYSqODe7XM7EbAAklOC1bUQbCsB5FcHDtCROBOC0MkBHzGNpttSHAJxWNQ5/oi12PQBnVQyuxpHQTL8E4KiKwWpcbnbWk6FnwBVgH7BZoK/7gAlPNs7UIjLhId4fTLB9D8led7E1Vk35VqkbbBW/ANpILnrsjIO9X8AWk+JeB6XzKUlU3rxFB7s9JqV3HWK73ipR0RXgNPBTMAV0GcYddsio+01Exi2VPTfoupPS+JSl7RETkTlLZZcMKxE3pzMy57Kl7TcmIkVLZe0RPdMWq9huafsrGUopgQM/aAApJSDyPUsHip62VpKDOxmZc8Dn1przdNi7EszRb2IyO+xjHsNvf43xtwzjkwQIZcATUsb+WtAPsw6Dvk4hWRJMGlbC9YF420TktKWyPFOUbpPStmZJGpE6QjlgOWEa3+HhXdlovQqrvkhhtd9zYdUbV+p+9mQoS6wALXHLfi0AR5Xry4f/q/I+AGdVFSymaQodqWP7IA3KwFFSyqMAHFcRPMBCWhzjvG+8cukzFhySSZ9YAnbSBI2e3Xhsvc3k1BMp0MDN0LL0Z7w3Q6O9E5eMNQ4LwHHqJK3SfvjkkcBHySpy+QJCGz0v356sWTi/Ji/ZzuVFoFqRpOv1AeCxhO1vwG+Bvn4r/w3IWJtibF1oBPkHPeSOgCfXszwAAAAASUVORK5CYII=":
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEmklEQVR4nO2a229VRRTGf7VVSqi1p0jro74p4OVfUKOWS20reIXog3gpBGwl8VGNPhAumhDA+CImXoLPqMVrAqKIgiLURHsqaLw9eOFFbgVTzIrfTlZ2dvfZs88+p0fDl0xyMjNrzcyetdZ8s+bABfx/UQL6gU3ACDAGHAfOqhxX3Yj69EumITADWA68C/wNnA8sJvMOsEy66o6ZwFrgVzep08AHwJNAH3C1vvjFKiXV9anPh8AZJ/8LMAy01msRC4GjbgJfAA8CHTl0mcwK4EunbxzooYawL/WCG9AGv6VA/bcCXzn9W2uxO93AQQ1wClgNNBc9CP/qXKMxbKzPga6ilF8FfCfF3wLzqD3mA2VnaldWq/AKKTKFHwOzqR9mA59o7HI1O9PqzGkf0Eb9cSmw35lZrhD9ovsaeSJSUeh0pr0tVHiBBE/IXqcb1wEnNSeLbpkPu+icGKJxsNY5f6awPCwB84+LaBw0A4c0NwvRqWgVVbDOt+Uc0OjI3cDr+nonVMZVd5f65MEize3nSo5/n9uNPLgjRl+mKkfFfvPgkHTck9bpfXUy/hOCJuB5N9Ej2v65wCyVuao7oj6TovMmG4JHJL9rqg4l0Wq7O1wWqPw5KTc2O1jBt6xtpWO+GwLHKgHnVNqTOgxIsVHxEPS5RdwYIGd9JyRrth+C3ZLrTWrcpManAhSa0/4ouUddvZnLA6IYkbMbxbk/ZkqrJPs90BIw7jOSW5/UOJK2yimw1PmEN6eXUxx9eyykjqreLCIr+iWzM6kxIofXBCh8QzKPubrlqvtLQaNb5PMh1Z3X1TZ+bllozor5kvkmqfEPNRq3yYoxyXhqHzFWc/o4Bh2TjnCt6kxXVlwumd+SGs/mSB5ExTPjiBMl0e4ux+E8w8077kTSQiamaSFtRS/k9ypMyw67LKa1Um17E0zLbp+FmFY5YVKVsCPB2ZfFnL1dxTu7UaG4s78WMG7q4t/OEX6XuPDrkxHbU8zhJdfPZL5WfQj3GkgLvxvV+HTggfiD5MxsIjQpDO/VLlj5SLvlD8TVkj0WeCA+m3YgRoeMZQBDsNg53k0Bcje7AGM30hDsSbOejipI4wa3mFUVcl7N2oloEesCx+qsRBoN70m5OWYImmSak5If1TV5nsJrm07jYecTk/oAoTR+UPJGqSperCyfmwe3O6qTVsqBQcUjSqvaLTTTVTfUbiOY094JvKpzJmK/9vsVEc0Qx/bo1dx+ypLjGnZJ6lrkd/OiBTisuZmPZUoHRQmxx2kcPOHMMnPGsUdCJ3WKTjducBn64KeM6C1kPJB/1SKZfUxz2ZJHgTn+ASnYL7pdb7QreW1z+Kyad8ZuF073iXXWC3OAT51fdBX50FOuk89cHxuz6ocevzMH3OvtUBVnQRpaFP5PO5O2nSkUrXqfiE7nwwW+vjbptXjU0ZfNtX5774nREMvFPpwzsnVK1r/mjhX8Wlxxd4aUFff35926zwyIMFp68xKVkuoG1GdPLE9gtGPNdP0DYoaI5q6cf+E4p5vpvVpsQ6BD7Nfo/FtKnv2prz6h31b3puh7b457zwXwX8E/PVLgeBVbwCIAAAAASUVORK5CYII=",
-      width: size,
-      height: size,
-    };
-  
     return (
-      <Image source={logo} style={{top: -15}}/>
+      // <View style={[styles.border, {
+      //   alignItems: "center",
+      //   // alignSelf: "center"
+      // }]}>
+        <Image 
+          style={[styles.icon, {
+            width: size, 
+            height: size
+          }]} 
+          source={focused?require("../../../assets/pokeball_focused.png"):require("../../../assets/pokeball.png")}
+        />
+        
     )
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    // top: -15
+  },
+  border: {
+    borderColor: "red",
+    borderWidth: 1,
+    borderRadius: 1
+},
+})

@@ -1,14 +1,22 @@
 import { View } from "react-native";
 
-interface SpacerI{
-    size: number
+export enum AXIS {
+    "X" = "x",
+    "Y" = "y",
 }
 
-export function Spacer({size}: SpacerI) {
+interface SpacerI{
+    size: number,
+    axis: AXIS
+}
+
+export function Spacer({size, axis}: SpacerI) {
     return (
         <View style={{
-            width: "100%",
-            height: size
+            // width: "100%",
+            // height: size
+            width: axis === AXIS.X? size: 0,
+            height: axis === AXIS.Y? size: 0,
         }}></View>
     )
 }

@@ -1,37 +1,31 @@
-// import { StackScreenProps } from "@react-navigation/stack/lib/typescript/src/types";
-import { StyleSheet, View, Image, Text, FlatList, Platform } from "react-native";
-// import { PokedexStackParamList } from "../types/navigation";
-// import { SECTIONS, SectionBarNav } from "./SectionBarNav";
-// import AboutScreen from './sections/About'
-// import MovesScreen from './sections/Moves'
-// import StatsScreen from './sections/Stats'
-import { useState } from "react";
+import { StyleSheet, View, Image, Text } from "react-native";
 import { Pokemon } from "../../types/pokemon";
-import { capitalize } from "lodash";
-// import { getPokemonTypeColor } from "../utils/getColors";
+import { AXIS, Spacer } from "../Spacer";
 
 interface HeaderI {
     pokemon: Pokemon,
 }
 
 export default function Header( {pokemon}: HeaderI) {
-    
     return (
         <View style={[styles.header, styles.border]}>
             <Image 
-                source={{uri: pokemon.sprite}}
-                // style={{ width: 20, height: 20}}  
+                source={{uri: pokemon.sprite}} 
                 style={[styles.sprite, styles.border]}
             />
 
+            <Spacer size={16} axis={AXIS.Y}/>
+
             <Text style={[styles.name, styles.border]}>{pokemon.name}</Text>
-            
+
+            <Spacer size={4} axis={AXIS.Y}/>
+
             <View style={[styles.orderContainer, styles.border]}>
                 <Image 
                     source={require("../../../assets/icon-pokeball.png")}
                     style={[styles.icon, styles.border]}  
-                    // style={[styles.sprite, styles.border]}
                 />
+                
                 <Text style={[styles.order, styles.border]}>
                     {" " + `${pokemon.order}`.padStart(4, "0")}
                 </Text>
@@ -41,32 +35,6 @@ export default function Header( {pokemon}: HeaderI) {
 }
 
 const styles = StyleSheet.create({
-    card: {
-        height: "100%",
-        width: "100%",
-
-        // ,
-        // paddingTop: 40,
-        // padding: 20,
-        // paddingTop: 40,
-        // paddingHorizontal: 40,
-        // padding: 40,
-        padding: 40,
-        // padding: 40,
-    
-        alignSelf: "center",
-        // flexDirection: "row",
-        alignItems: "center",
-        // justifyContent: "space-between",
-    
-        // borderColor: "black",
-        // borderWidth: 1,
-        borderRadius: 15,
-        // margin: 20,
-        // backgroundColor: "blue",
-
-        // flex: 1
-    },
     icon: {
         width: 20,
         height: 20,
@@ -78,42 +46,28 @@ const styles = StyleSheet.create({
         alignItems: "center"
         // marginBottom: 10,
     },
-
-    orderContainer: {
-        // alignSelf: "center",
-        flexDirection:'row'
-    },
-    order: {
-        color: "#fff",
-        fontSize: 13,
-  
-        // marginLeft: 5,
-        // alignSelf: "center"
-    },
-    name: {
-        fontSize: 20,
-        color: "#fff",
-        fontWeight: "bold",
-
-        // alignSelf: "center"
-    },
     sprite: { 
-        // height: 60,
-        // width: 90,
         width: 200, 
         height: 200,
-          // transform: "translateY(50%)",
-  
-          // flex: 1,
-        // alignSelf: "flex-end",
+    },
+    name: {
+        // fontSize: 20,
+        // color: "#fff",
+        // fontWeight: "bold",
+    },
+    orderContainer: {
+        flexDirection:'row',
+        alignItems: "center"
+    },
+    order: {
+        // color: "#fff",
+        // fontSize: 13,
     },
     
+
     border: {
         // borderColor: "red",
         // borderWidth: 1,
         // borderRadius: 1
     },
-    list: {
-        // bac
-    }
 })

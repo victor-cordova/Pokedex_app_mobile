@@ -49,7 +49,7 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
 
 const styles = StyleSheet.create({
     list: {
-        padding: 20,
+        // padding: 20,
         // marginBottom: 40,
         // height: "90%"
     },

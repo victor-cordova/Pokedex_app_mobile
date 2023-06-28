@@ -16,16 +16,10 @@ export function SectionHandler({ selected, pokemon }: SectionHandlerI) {
   switch (selected) {
       case SECTIONS.ABOUT:
           return <About pokemon={pokemon}/>
-          // break;
-  
       case SECTIONS.MOVES:
           return <Moves abilities={pokemon.abilities} moves={pokemon.moves}/>
-          // break;
-  
       case SECTIONS.STATS:
           return <Stats pokemon={pokemon}/>
-          // break;
-          
       default:
           break;
   }

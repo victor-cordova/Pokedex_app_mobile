@@ -7,50 +7,23 @@ interface SegmentedButtonsI {
     sections: SECTIONS[]
 }
 
-interface RenderFunctionI {
+interface ButtonI {
     item: SECTIONS,
-    // onPress: (section: SECTIONS) => void,
-    // length: number,
-    index: number,
 }
 
 
 export function SegmentedButtons({sectionSelected, switchSection, sections}: SegmentedButtonsI) {
-    const lastPosition = sections.length - 1;
-
-    function RenderFunction({item, index}: RenderFunctionI) {
+    function Button({item}: ButtonI) {
         return (
             <TouchableOpacity 
-                style={[styles.border, {
-                    flex: 1,
-                    // width: "100%",
-                    // height: "100%",
-                    // alignSelf: "center",
-                    justifyContent: "center",
-                    // borderRadius: 28,
-                    borderTopRightRadius: index === lastPosition?28:0,
-                    borderBottomRightRadius: index === lastPosition?28:0,
-                    borderTopLeftRadius: index === 0?28:0,
-                    borderBottomLeftRadius: index === 0?28:0,
-                    // borderBottomEndRadius: 28,
-                    // backgroundColor: "red",
-                    // padding: 20,
-                    borderColor: "black",
-                    // borderWidth: index === 0,
-                    borderWidth: 1,
-                    // t,
-                    
-                    backgroundColor: item === sectionSelected?"blue":"",
-                    // height: 300
+                style={[styles.border, styles.button, {
+                    backgroundColor: item === sectionSelected?"white":"",
                 }]}
                 
                 onPress={() => switchSection(item)} 
             >
                 <Text 
-                    
-                    style={[styles.border, {
-                        textAlign: "center"    
-                    }]}
+                    style={[styles.border, styles.text]}
                 >
                     {item}
                 </Text>
@@ -58,36 +31,33 @@ export function SegmentedButtons({sectionSelected, switchSection, sections}: Seg
             
         )
     }
-    return (
-        <View style={{
-            // flex: 1,
-            height: 60,
-            // padding: 12,
-            width: "100%",
-            borderRadius: 28,
-            // backgroundColor: "orange",
-            // padding: 20,
-            // borderWidth: 0.5,
-            borderColor: "black",
 
-            // alignItems: "center",
-            // justifyContent: "center",
-            alignContent: "center",
-            flexDirection: "row"
-        }}>
-            {sections.map((section, index) => <RenderFunction index={index} key={index} item={section}/>)}
+    return (
+        <View style={[styles.container]}>
+            {sections.map((section, index) => <Button key={index} item={section}/>)}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    list: {
-        // flex: 1,
-        // width: "100%",
-        // height: 40,
+    container: {
+        height: 40,
+        borderRadius: 28,
+        backgroundColor: "orange",
+        borderColor: "black",
+        marginHorizontal: 20,
 
-        // alignItems: "stretch"
-        // justifyContent: "center"
+        alignContent: "center",
+        flexDirection: "row"
+    },
+    button: {
+        borderRadius: 28,
+
+        flex: 1,
+        justifyContent: "center",
+    },
+    text: {
+        textAlign: "center",
     },
     border: {
         // borderColor: "red",

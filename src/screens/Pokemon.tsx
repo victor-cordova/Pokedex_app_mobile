@@ -6,7 +6,7 @@ import Header from "../components/pokemon/Header";
 import { useState } from "react";
 import { SegmentedButtons } from "../components/pokemon/SegmentedButtons";
 import { SECTIONS, SectionHandler } from '../components/pokemon/SectionHandler'
-import { Spacer } from "../components/Spacer";
+import { AXIS, Spacer } from "../components/Spacer";
 
 type PropsI = StackScreenProps<PokedexStackParamList, "Pokemon">;
 
@@ -50,9 +50,9 @@ export default function Pokemon (navigator: PropsI): JSX.Element {
     // </SafeAreaView>
     <View style={[styles.container, styles.border]}>
       <Header pokemon={navigator.route.params}/>
-      <Spacer size={24}/>
+      <Spacer size={16} axis={AXIS.Y}/>
       <SegmentedButtons sectionSelected={sectionSelected} sections={sections} switchSection={switchSection}/>
-      <Spacer size={24}/>
+      <Spacer size={16}  axis={AXIS.Y}/>
       <SectionHandler pokemon={navigator.route.params} selected={sectionSelected}/>
       
       {/* <DetailedCard navigator={navigator}/> */}
@@ -65,17 +65,17 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     // flex: 1,
-    backgroundColor: "green",
+    // backgroundColor: "green",
 
     paddingTop: Platform.OS === "android"? 30: 0,
     // paddingBottom: 350,
-    paddingHorizontal: 30
+    // paddingHorizontal: 20
     
     // justifyContent: "center",
   },
   border: {
-    borderColor: "red",
-    borderWidth: 1,
-    borderRadius: 1
+    // borderColor: "red",
+    // borderWidth: 1,
+    // borderRadius: 1
   },
 })

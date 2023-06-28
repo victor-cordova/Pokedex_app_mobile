@@ -22,7 +22,7 @@ export default function Pokedex({ navigation }: StackScreenProps<PokedexStackPar
 const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android"? 50: 0,
-    // paddingBottom: 60,
+    paddingHorizontal: 16,
     backgroundColor: "red"
   },
   border: {

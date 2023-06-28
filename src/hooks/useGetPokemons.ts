@@ -7,7 +7,7 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
     return data.map(item => {
         const types = item.types.map(iter => capitalize(iter.type.name));
         const abilities = item.abilities.map(ability => ability.ability.name);
-        const moves = item.moves.slice(0, 8).map(move => move.move.name);
+        const moves = item.moves.slice(0, 32).map(move => move.move.name);
         return {
             name: capitalize(item.name),
             order: item.id,

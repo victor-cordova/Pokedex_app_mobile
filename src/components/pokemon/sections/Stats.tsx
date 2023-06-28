@@ -4,7 +4,7 @@ import { StatBar } from "../../StatBar";
 import { STATS } from "../../../utils/constants";
 import { getPokemonStatColor } from "../../../utils/getColors";
 import { Pokemon } from "../../../types/pokemon";
-import { Spacer } from "../../Spacer";
+import { AXIS, Spacer } from "../../Spacer";
 
 interface StatsI {
     pokemon: Pokemon
@@ -22,15 +22,16 @@ function BarLabeled({index, label, stat}: BarLabeledI) {
 
     return (
         <View style={[styles.bar, styles.border]}>
-            <Spacer size={16}/>
+            <Spacer size={16} axis={AXIS.Y}/>
+
             <View style={[styles.textContainer, styles.border]}>
                 <Text style={[styles.text, styles.border]}>{label}</Text>
                 <Text>{percent} %</Text>
             </View>
-            <Spacer size={4}/>
+
+            <Spacer size={8} axis={AXIS.Y}/>
             
             <StatBar key={index} color={getPokemonStatColor(label)} stat={stat} max={label === STATS.EXP?1000: 300}/>
-            {/* <Spacer size={16}/> */}
         </View>
         
     )
@@ -47,10 +48,13 @@ export function Stats({ pokemon }: StatsI) {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        paddingBottom: 16,
-        paddingHorizontal: 16,
-        backgroundColor: "red",
-        borderRadius: 12,
+        height: "100%",
+        paddingBottom: 20,
+        paddingHorizontal: 20,
+        // backgroundColor: "red",
+        // borderRadius: 12,
+        borderWidth: 1,
+        borderColor: "black"
     },
 
     bar: {

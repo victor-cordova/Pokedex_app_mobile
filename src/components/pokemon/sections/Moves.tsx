@@ -1,7 +1,7 @@
 import { StyleSheet, View, Image, Text, FlatList } from "react-native";
 import { Badge } from "../../Badge";
 import { capitalize } from "lodash";
-import { Spacer } from "../../Spacer";
+import { AXIS, Spacer } from "../../Spacer";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 interface MovesI {
@@ -31,17 +31,21 @@ export function Moves({abilities, moves}: MovesI) {
         <View style={[styles.border, styles.container]}>
             <Text style={[styles.border]}>Abilities</Text>
             
-            <Spacer size={8}/>
+            <Spacer size={8} axis={AXIS.Y}/>
 
             <View style={[styles.abilities, styles.border]}>
-                {abilities.map((ability, index) => 
-                    <Badge key={index} isDetailed={true} text={capitalize(ability)}/>    
-                )}
+                <Badge text={capitalize(abilities[0])}/>
+
+                <Spacer size={16} axis={AXIS.X}/>
+
+                <Badge text={capitalize(abilities[1])}/>
             </View>
-            <Spacer size={8}/>
+
+            <Spacer size={16} axis={AXIS.Y}/>
+
             <Text style={[, styles.border]}>Moves</Text>
 
-            <Spacer size={8}/>
+            <Spacer size={8} axis={AXIS.Y}/>
 
             <FlatList
                 data={moves}
@@ -57,17 +61,35 @@ export function Moves({abilities, moves}: MovesI) {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        backgroundColor: "red",
+        // height: "80%",
+        // backgroundColor: "red",
         
-        padding: 16,
-        borderRadius: 12,
+        padding: 20,
+        // borderRadius: 12,
+        borderWidth: 1,
+        borderColor: "black",
     },
+    // badgeContainer: {
+    //     width: "100%",
+    //     height: 40,
+
+    //     flexDirection: "row",
+    // },
     abilities: {
+        width: "100%",
+        height: 40,
+
+        // justifyContent: "space-evenly",
         flexDirection: "row",
-        justifyContent: "space-evenly",
     },
+    // abilities: {
+    //     flexDirection: "row",
+    //     justifyContent: "space-evenly",
+    // },
     list: {
-        backgroundColor: "blue",
+        // backgroundColor: "blue",
+        borderColor: "black",
+        borderWidth: 1,
         padding: 8,
 
         borderRadius: 12,

@@ -1,7 +1,7 @@
 import { ActivityIndicator, FlatList, StyleSheet, SafeAreaView, Platform, useWindowDimensions } from "react-native";
 
 import { Pokemon } from "../types/pokemon";
-import { Card } from "./Card";
+import { Card, CardV2, CardV3 } from "./Card";
 
 interface ListI {
     selectPokemon: (pokemon: Pokemon) => void,
@@ -24,7 +24,7 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
         }}>
             <FlatList
                 data={pokemons}
-                renderItem={({ item }) => <Card pokemon={item} onPress={selectPokemon}/>}
+                renderItem={({ item }) => <CardV3 pokemon={item} onPress={selectPokemon}/>}
                 keyExtractor={(item, index) => String(index)}
                 contentContainerStyle={[styles.list, styles.border, {
 

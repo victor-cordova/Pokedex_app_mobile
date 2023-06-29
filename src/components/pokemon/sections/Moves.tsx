@@ -34,11 +34,18 @@ export function Moves({abilities, moves}: MovesI) {
             <Spacer size={8} axis={AXIS.Y}/>
 
             <View style={[styles.abilities, styles.border]}>
-                <Badge text={capitalize(abilities[0])}/>
+                {abilities.map((ability, index) => 
+                    <>
+                        {index % 2 !== 0 && 
+                            <Spacer size={16} axis={AXIS.X} key={index + "ability1"}/>}
+                            <Badge 
+                                text={capitalize(ability)} 
+                                key={index + "ability2"}
+                            />
+                        
+                    </>
+                )}
 
-                <Spacer size={16} axis={AXIS.X}/>
-
-                <Badge text={capitalize(abilities[1])}/>
             </View>
 
             <Spacer size={16} axis={AXIS.Y}/>
@@ -51,7 +58,7 @@ export function Moves({abilities, moves}: MovesI) {
                 data={moves}
                 renderItem={({item, index}) => <Item index={index} item={capitalize(item)}/>}
                 numColumns={2}
-                keyExtractor={(item, index) => String(index)}
+                keyExtractor={(item, index) => index + "list1"}
                 style={[styles.list, styles.border]}
             />
         </View>

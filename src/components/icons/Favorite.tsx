@@ -7,7 +7,7 @@ interface FavoriteI {
     // route: RouteProp<RootStackParamList, keyof RootStackParamList>
 }
 
-function Favorite ({color, focused, size}: FavoriteI): JSX.Element {
+export function FavoriteIcon ({color, focused, size}: FavoriteI): JSX.Element {
     let iconName = focused ? 'heart' : 'heart-outline';
   
     return <Ionicons name={iconName} size={size} color={color} />;

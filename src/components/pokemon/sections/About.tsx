@@ -37,14 +37,18 @@ export function About({pokemon}:AboutI) {
             <Spacer size={8} axis={AXIS.Y}/>
 
             <View style={[styles.badgeContainer, styles.border]}>
-                <Badge color={getPokemonTypeColor(pokemon.types[0])} text={pokemon.types[0]} isDetailed={true}/>
-                {pokemon.types.length === 2 && 
+                {pokemon.types.map((type, index) => 
                     <>
-                        <Spacer size={16} axis={AXIS.X}/>
-
-                        <Badge color={getPokemonTypeColor(pokemon.types[1])} text={pokemon.types[1]} isDetailed={true}/>
+                        {index % 2 !== 0 && 
+                            <Spacer size={16} axis={AXIS.X} key={index + "type1"}/>}
+                            <Badge 
+                                color={getPokemonTypeColor(type)} 
+                                text={type} 
+                                key={index + "type2"}
+                            />
+                        
                     </>
-                }
+                )}
             </View>
 
             <Spacer size={16} axis={AXIS.Y}/>

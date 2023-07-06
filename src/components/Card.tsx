@@ -1,10 +1,13 @@
 import { View, Text, FlatList, StyleSheet, StatusBar, Image, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Pokemon } from "../types/pokemon";
-import { Badge } from "./Badge";
+import { Badge, BadgeV2 } from "./Badge";
 import { getPokemonTypeColor } from "../utils/getColors";
+import { COLORS, COLORS_SCHEME, NEUTRAL_COLORS, TEXT_COLORS } from "../utils/constants";
 import { AXIS, Spacer } from "./Spacer";
 import { FavoriteIcon } from "./icons/Favorite";
+import {Appearance} from "react-native";
+import React from "react";
 
 // import iconPokeball from "../../assets/icon-pokeball";
 
@@ -21,10 +24,36 @@ interface BadgeSizedI {
   data: string
 }
 
-function BadgeSized({ data }: BadgeSizedI) {
+interface SectionI {
+  data: Pokemon
+}
+
+import { useColorScheme } from 'react-native';
+
+const themeColors = {
+  light: {
+    background: 'white',
+    text: 'black',
+  },
+  dark: {
+    background: 'black',
+    text: 'white',
+  },
+};
+
+const useThemeColors = () => {
+  const colorScheme = useColorScheme();
+  const colors = themeColors[colorScheme];
+  return colors;
+};
+
+function BadgeSizedV2({ data }: BadgeSizedI) {
   return (
-    <View style={[stylesV2.border, stylesV2.badgeContainerV2]}>
-      <Badge 
+    <View style={[stylesV2.border, {
+      height: 40,
+      // width: 100,
+    }]}>
+      <BadgeV2 
         color={getPokemonTypeColor(data)} 
         text={data} 
         // isDetailed={true}
@@ -33,312 +62,142 @@ function BadgeSized({ data }: BadgeSizedI) {
   )
 }
 
+function ImageSection({data}: SectionI) {
+  return (
+    <View style={[{
+      // width: "50%",
+      flex: 2,
+      alignItems: "center",
+      
+      height: "100%",
+
+      backgroundColor: data.color,
+      borderRadius: 12,
+    }, stylesV2.border]}>
+      <Image source={{uri: data.sprite}} style={[stylesV2.sprite, , {
+        width: "88%",
+        height: "80%",
+        resizeMode: "contain",
+      }]}/>
+
+      <View
+        style={[, stylesV2.border, {
+          position: "absolute",
+          bottom: 0,
+
+          width: "100%",
+          padding: 4,
+          
+          borderBottomRightRadius: 12,
+          borderBottomLeftRadius: 12,
+          backgroundColor: COLORS.gray,
+        }]}
+      >
+        <Text 
+          selectionColor={TEXT_COLORS.light.title}
+          accessibilityIgnoresInvertColors={true}
+          
+          style={[, stylesV2.border, {
+            // Title small
+            fontWeight: "500",
+            textAlign: "center",
+            fontSize: 14, 
+            lineHeight: 20,
+            fontFamily: "Roboto",
+          }]}
+        >
+          {data.name}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
+function InfoSection({data}: SectionI) {
+  return (
+    <View style={[stylesV2.info, stylesV2.border]}>
+    <View style={[stylesV2.text]}>
+      
+      
+      <View style={stylesV2.orderContainer}>
+        <Image 
+          source={require("../../assets/icon-pokeball.png")}
+          style={stylesV2.icon}  
+        />
+
+        <Text 
+          selectionColor={NEUTRAL_COLORS.black}
+          style={[stylesV2.order, stylesV2.border, {
+          //label small, but needs to add style when traking the card.
+          fontSize: 11,
+          lineHeight: 16,
+          fontWeight: "500",
+
+          fontFamily: "Roboto",
+          color: TEXT_COLORS.light.subhead,
+          // md.sys.typescale.label-small.tracking	-	0.5
+        }]}>
+          {" " + `${data.order}`.padStart(4, "0")}
+        </Text>
+      </View>
+    </View>
+
+    <Types types={data.types}/>
+  </View>
+  )
+}
+
+function FavoriteButton() {
+  return (
+    <TouchableOpacity 
+      style={[{
+        position: "absolute",
+        right: 16,
+        top: 16,
+        }, 
+        stylesV2.border]
+      }
+      // onPress={addFavorite}  
+    >
+      <FavoriteIcon color="white" focused={false} size={20}/>
+    </TouchableOpacity>
+  )
+}
 
 function Types({ types }: TypesI) {
   return (
     <View style={[{
       width: "100%",
-      // backgroundColor: "white",
-      // padding: 8,
-      // borderRadius: 12,
 
-      justifyContent: "flex-end",
-      // alignItems: "center"
-    }, styles.border]}>
+      flexDirection: "row",
+    }, stylesV2.border]}>
 
       {types.map((type, index) => 
-        <>
+        <React.Fragment key={index + "card0"}>
           {index % 2 !== 0 && 
-            <Spacer size={12} axis={AXIS.Y} key={index + "card1"}/>}
+            <Spacer size={8} axis={AXIS.X} key={index + "card1"}/>}
             
-            <BadgeSized data={type} key={index + "card2"}/>
-        </>
+            <BadgeSizedV2 data={type} key={index + "card2"}/>
+        </React.Fragment>
       )}
     </View>
   )
 }
 
-export function CardV2 ({ pokemon, onPress }: CardI) {
-  return (
-    <TouchableOpacity onPress={() => onPress(pokemon)} style={[stylesV2.container, stylesV2.border]}>
-        <View style={[stylesV2.info, stylesV2.border]}>
-          <View style={[stylesV2.text]}>
-            
-            
-            <View style={stylesV2.orderContainer}>
-              <Image 
-                source={require("../../assets/icon-pokeball.png")}
-                style={stylesV2.icon}  
-              />
-
-              <Text style={[stylesV2.order, stylesV2.border, {
-                // fontSize: 12
-              }]}>
-                {" " + `${pokemon.order}`.padStart(4, "0")}
-              </Text>
-            </View>
-          </View>
-
-          <Types types={pokemon.types}/>
-        </View>
-
-        {/* <Spacer axis={AXIS.X} size={16}/> */}
-        
-        <View style={[{
-          // width: "50%",
-          backgroundColor: "white",
-          height: "100%",
-          borderRadius: 12,
-          // minWidth: 132,
-          // borderBottomEndRadius: 12,
-
-          flex: 2,
-          alignItems: "center",
-          justifyContent: "center"
-        }, stylesV2.border]}>
-          <Image source={{uri: pokemon.sprite}} style={[stylesV2.sprite, stylesV2.border]}/>
-          
-          <Spacer axis={AXIS.Y} size={8}/>
-
-          <Text 
-            style={[stylesV2.name, stylesV2.border, {
-              // alignSelf: "flex-start",
-              // marginLeft: 16,
-            }]}
-          >
-            {pokemon.name}
-          </Text>
-        </View>
-
-        {/* <Spacer axis={AXIS.X} size={16}/> */}
-
-        <View style={[{
-          // alignSelf: "flex-start",
-          position: "absolute",
-          right: 16,
-          top: 16,
-        }, stylesV2.border]}>
-          <FavoriteIcon color="white" focused={false} size={20}/>
-        </View>
-        
-
-        {/* // Supongamos que hay una variable llamada pixelar que es true o false */}
-        
-    </TouchableOpacity>
-  )
-};
-
-export function CardV3 ({ pokemon, onPress }: CardI) {
-  return (
-    <TouchableOpacity onPress={() => onPress(pokemon)} style={[stylesV2.container, stylesV2.border]}>
-        <View style={[stylesV2.info, stylesV2.border]}>
-          <View style={[stylesV2.text]}>
-            
-            
-            <View style={stylesV2.orderContainer}>
-              <Image 
-                source={require("../../assets/icon-pokeball.png")}
-                style={stylesV2.icon}  
-              />
-
-              <Text style={[stylesV2.order, stylesV2.border, {
-                // fontSize: 12
-              }]}>
-                {" " + `${pokemon.order}`.padStart(4, "0")}
-              </Text>
-            </View>
-          </View>
-
-          <Types types={pokemon.types}/>
-        </View>
-
-        {/* <Spacer axis={AXIS.X} size={16}/> */}
-        
-        {/* <View style={[{
-          // width: "50%",
-          backgroundColor: "white",
-          height: "100%",
-          borderRadius: 12,
-          // minWidth: 132,
-          // borderBottomEndRadius: 12,
-
-          flex: 2,
-          alignItems: "center",
-          justifyContent: "center"
-        }, stylesV2.border]}>
-          <Image source={{uri: pokemon.sprite}} style={[stylesV2.sprite, stylesV2.border]}/>
-          
-          <Spacer axis={AXIS.Y} size={8}/>
-
-          <Text 
-            style={[stylesV2.name, stylesV2.border, {
-              // alignSelf: "flex-start",
-              // marginLeft: 16,
-            }]}
-          >
-            {pokemon.name}
-          </Text>
-        </View> */}
-        <View
-          style={{
-            // width: "50%",
-            backgroundColor: "white",
-            height: "100%",
-            borderRadius: 12,
-            // minWidth: 132,
-            // borderBottomEndRadius: 12,
-  
-            flex: 2,
-            // alignItems: "center",
-            // justifyContent: "center"
-          }}
-          >
-            <ImageBackground 
-              resizeMode="cover" 
-              // imageStyle={{
-                
-              // }}
-              source={{uri: 'https://legacy.reactjs.org/logo-og.png'}} 
-              style={{  
-                flex: 1,
-                
-              }}
-            />
-    
-        </View>
-
-        {/* <Spacer axis={AXIS.X} size={16}/> */}
-
-        <View style={[{
-          // alignSelf: "flex-start",
-          position: "absolute",
-          right: 16,
-          top: 16,
-        }, stylesV2.border]}>
-          <FavoriteIcon color="white" focused={false} size={20}/>
-        </View>
-        
-
-        {/* // Supongamos que hay una variable llamada pixelar que es true o false */}
-        
-    </TouchableOpacity>
-  )
-};
-
-
-
-
-
 export function Card ({ pokemon, onPress }: CardI) {
   return (
-    <TouchableOpacity onPress={() => onPress(pokemon)} style={[styles.container, styles.border]}>
-        <View style={[styles.info, styles.border]}>
-          <View style={[styles.text]}>
-            <Text style={[styles.name, styles.border, {
-              // fontSize: 24
-            }]}>{pokemon.name}</Text>
-            
-            <View style={styles.orderContainer}>
-              <Image 
-                source={require("../../assets/icon-pokeball.png")}
-                style={styles.icon}  
-              />
+    <TouchableOpacity onPress={() => onPress(pokemon)} style={[stylesV2.container, stylesV2.border, {
+      // height: 152,
+      
+    }]}>
+      <ImageSection data={pokemon}/>
+        
+      <InfoSection data={pokemon}/>
 
-              <Text style={[styles.order, styles.border, {
-                fontSize: 12
-              }]}>
-                {" " + `${pokemon.order}`.padStart(4, "0")}
-              </Text>
-            </View>
-          </View>
-
-          <Types types={pokemon.types}/>
-        </View>
-
-        <Image source={{uri: pokemon.sprite}} style={[styles.sprite, styles.border]}/>
+      <FavoriteButton />
     </TouchableOpacity>
   )
 };
-
-const styles = StyleSheet.create({
-    container: {
-      height: 202,
-      width: "100%",
-      padding: 12,
-      backgroundColor: "green",
-  
-      flexDirection: "row",
-      // alignSelf: "center",
-      alignItems: "center",
-      justifyContent: "space-between",
-  
-      // borderColor: "black",
-      // borderWidth: 1,
-      borderRadius: 12,
-      marginBottom: 16,
-    },
-
-    info: {
-      height: "100%",
-      width: 180,
-
-      borderTopLeftRadius: 10,
-      borderTopRightRadius: 10,
-      
-      // flexDirection: "column",
-      // paddingHorizontal: 10,
-      
-      justifyContent: "space-between"
-    },
-
-    orderContainer: {
-      flexDirection:'row'
-    },
-
-    order: {
-    },
-    name: {
-    },
-    icon: { 
-      width: 20, 
-      height: 20,
-    },
-    sprite: { 
-        width: 140, 
-        height: 140,
-
-        // flex: 1
-    },
-    text: {
-
-    },
-    typesList: {
-      width: "100%",
-
-      justifyContent: "space-between",
-
-      flexDirection: "row",
-
-      // alignSelf: "center"
-    },
-    badgeContainer: {
-      width: "100%",
-      height: 40,
-
-      flexDirection: "row",
-    },
-    badgeContainerV2: {
-      width: "100%",
-      height: 40,
-
-      flexDirection: "row",
-    },
-    border: {
-      // borderColor: "red",
-      // borderWidth: 1,
-      // borderRadius: 1
-    }
-});
 
 const stylesV2 = StyleSheet.create({
   border: {
@@ -347,10 +206,10 @@ const stylesV2 = StyleSheet.create({
     // borderRadius: 1
   },
   container: {
-    height: 180,
+    height: 152,
     width: "100%",
-    // padding: 16,
-    backgroundColor: "green",
+    backgroundColor: TEXT_COLORS.light.title,
+    
 
     flexDirection: "row",
     // alignSelf: "center",
@@ -360,7 +219,7 @@ const stylesV2 = StyleSheet.create({
     // borderColor: "black",
     // borderWidth: 1,
     borderRadius: 12,
-    marginBottom: 16,
+    marginBottom: 8,
   },
 
   info: {
@@ -383,7 +242,7 @@ const stylesV2 = StyleSheet.create({
     flexDirection:'row'
   },
   order: {
-    fontSize: 12,
+    // fontSize: 12,
   },
   name: {
   },
@@ -392,10 +251,13 @@ const stylesV2 = StyleSheet.create({
     height: 20,
   },
   sprite: { 
-      width: 92, 
-      height: 92,
 
-      // flex: 1
+    // width: "100%", 
+    // height: "auto",
+
+    // resizeMode: "contain"
+
+    // flex: 1
   },
   text: {
 
@@ -420,23 +282,5 @@ const stylesV2 = StyleSheet.create({
     height: 40,
 
     flexDirection: "row",
-  },
-
+  }
 });
-
-
-
-
-// import React from "react";
-// import { ImageBackground, Text, View } from "react-native";
-
-// const App = () => (
-//   <View style={{ flex: 1 }}>
-//     <ImageBackground source={{ uri: "https://via.placeholder.com/500" }} style={{ flex: 1, transform: [{ scale: 3 }], alignItems: "center", justifyContent: "center" }} imageStyle={{ imageRendering: pixelar ? "pixelated" : "auto" }}>
-//       {/* Aquí va el contenido del View */}
-//       <Text>Hola Mundo</Text>
-//     </ImageBackground>
-//   </View>
-// );
-
-// export default App;

@@ -7,8 +7,11 @@ interface HeaderI {
 }
 
 export default function Header( {pokemon}: HeaderI) {
+    
     return (
-        <View style={[styles.header, styles.border]}>
+        <View style={[styles.header, styles.border, {
+            backgroundColor: pokemon.color
+        }]}>
             <Image 
                 source={{uri: pokemon.sprite}} 
                 style={[styles.sprite, styles.border]}

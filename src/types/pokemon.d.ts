@@ -68,7 +68,8 @@ export interface Pokemon {
         stat: number
     }[],
     abilities: string[],
-    moves: string[]
+    moves: string[],
+    color: string,
 }
 
 type PokemonStats = "hp" | "attack" | "defense" | "special-attack" | "special-defense" | "speed";

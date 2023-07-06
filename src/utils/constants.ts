@@ -22,24 +22,24 @@ export const POKEMON_TYPE_COLORS: Record<string, string> = {
 };
 
 export const TYPE_COLORS: Record<string, string> = {
-  bug: "#A8B820",
-  dark: "#040706",
-  dragon: "#378A94",
-  electric: "#E0E64B",
-  fairy: "#9E1A44",
-  fighting: "#9F422A",
-  fire: "#B22328",
-  flying: "#90B1C5",
-  ghost: "#363069",
-  grass: "#48CFB2",
-  ground: "#AD7235",
-  ice: "#7ECFF2",
-  normal: "#A8A878",
-  poison: "#642785",
-  psychic: "#AC296B",
-  rock: "#4B190E",
-  steel: "#5C756D",
-  water: "#2648DC",
+  bug: "rgba(164, 190, 123, 0.5)",
+  dark: "rgba(51, 51, 51, 0.5)",
+  dragon: "rgba(121, 186, 193, 0.5)",
+  electric: "rgba(255, 251, 172, 0.5)",
+  fairy: "rgba(237, 205, 187, 0.5)",
+  fighting: "rgba(231, 133, 68, 0.5)",
+  fire: "rgba(223, 78, 78, 0.5)",
+  flying: "rgba(221, 221, 221, 0.5)",
+  ghost: "rgba(79, 69, 87, 0.5)",
+  grass: "rgba(195, 229, 174, 0.5)",
+  ground: "rgba(194, 176, 146, 0.5)",
+  ice: "rgba(182, 234, 250, 0.5)",
+  normal: "rgba(243, 236, 184, 0.5)",
+  poison: "rgba(190, 159, 225, 0.5)",
+  psychic: "rgba(255, 175, 175, 0.5)",
+  rock: "rgba(174, 107, 52, 0.5)",
+  steel: "rgba(85, 85, 85, 0.5)",
+  water: "rgba(161, 194, 241, 0.5)",
 }
 
 export enum STATS {
@@ -51,11 +51,11 @@ export enum STATS {
 }
 
 export const STATS_COLORS: Record<STATS, string> = {
-  HP: "#D53846",
-  ATK: "#FEA623",
-  DEF: "#0092EB",
-  SPD: "#8CB1C2",
-  EXP: "#378E3A"
+  HP: "rgba(223, 78, 78, 0.5)",
+  ATK: "rgba(231, 133, 68, 0.5)",
+  DEF: "rgba(161, 194, 241, 0.5)",
+  SPD: "rgba(121, 186, 193, 0.5)",
+  EXP: "rgba(195, 229, 174, 0.5)"
 }
 
 export const COLORS_SCHEME = {
@@ -100,3 +100,30 @@ export const COLORS_SCHEME = {
     },
   } 
 };
+
+export const COLORS = {
+  black: "rgba(51, 51, 51, 0.5)",
+  blue: "rgba(161, 194, 241, 0.5)",
+  brown: "rgba(194, 176, 146, 0.5)",
+  gray: "rgba(221, 221, 221, 0.5)",
+  green: "rgba(195, 229, 174, 0.5)",
+  pink: "rgba(255, 175, 175, 0.5)",
+  purple: "rgba(190, 159, 225, 0.5)",
+  red: "rgba(223, 78, 78, 0.5)",
+  white: "rgba(255, 253, 249, 0.5)",
+  yellow: "rgba(255, 251, 172, 0.5)",
+}
+
+export const NEUTRAL_COLORS = {
+  white: "rgba(237, 239, 229, 1)",
+  black: "#1A1C18",
+}
+
+export const TEXT_COLORS = {
+  light: {
+    title: "hsl(255, 7%, 11%)",
+    subhead: "#49454F",
+    body: "#7D7883",
+    background: "#E7E0EC",
+  }
+}

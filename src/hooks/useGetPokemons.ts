@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { API_HOST, STATS } from "../utils/constants";
+import { getColor } from "../utils/getColors";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
 import { capitalize } from "lodash";
 
-const resumeData = (data: PokemonData[]): Pokemon[] => {
-    return data.map(item => {
+const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
+    return data.map((item, index) => {
         const types = item.types.map(iter => capitalize(iter.type.name));
         const abilities = item.abilities.map(ability => ability.ability.name);
         const moves = item.moves.slice(0, 32).map(move => move.move.name);
@@ -39,8 +40,20 @@ const resumeData = (data: PokemonData[]): Pokemon[] => {
             },
             ],
             moves: moves,
+            color: getColor(colors[index]),
         }
     })
+}
+
+async function fetchColor (url: string): Promise<string> {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        return data.color.name;
+    } catch (error) {
+        throw error;
+    };
 }
 
 async function fetchPokemon (url: string): Promise<PokemonData> {
@@ -62,14 +75,21 @@ export function useGetPokemons() {
     async function fetchPokemons () {
         try {
             const url = `${API_HOST}/pokemon?limit=10&offset=${page * 10}`;
+            let id = "0";
             const response = await fetch(url);
             const data: PokemonList = await response.json();
-            const pokemonData: PokemonData[]= await Promise.all(data.results.map((result) => (
-                fetchPokemon(result.url)
+            const pokemonData: PokemonData[]= await Promise.all(data.results.map(({url}) => (
+                fetchPokemon(url)
             )));
 
+            const colors = await Promise.all(data.results.map(({url}) => {
+                id = url.match(/\d+/g)[1];
+                return fetchColor(`${API_HOST}/pokemon-species/${id}/`);
+                
+            }));
+            
             setNext(data.next === null ?false:true);
-            setPokemons([...pokemons, ...resumeData(pokemonData)]);
+            setPokemons([...pokemons, ...resumeData(pokemonData, colors)]);
             setPage(page+1);
         } catch (error) {
             throw error;

@@ -3,6 +3,7 @@ import { Badge } from "../../Badge";
 import { capitalize } from "lodash";
 import { AXIS, Spacer } from "../../Spacer";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import React from "react";
 
 interface MovesI {
     abilities: string[],
@@ -35,7 +36,7 @@ export function Moves({abilities, moves}: MovesI) {
 
             <View style={[styles.abilities, styles.border]}>
                 {abilities.map((ability, index) => 
-                    <>
+                    <React.Fragment key={index + "ability0"}>
                         {index % 2 !== 0 && 
                             <Spacer size={16} axis={AXIS.X} key={index + "ability1"}/>}
                             <Badge 
@@ -43,7 +44,7 @@ export function Moves({abilities, moves}: MovesI) {
                                 key={index + "ability2"}
                             />
                         
-                    </>
+                    </React.Fragment>
                 )}
 
             </View>

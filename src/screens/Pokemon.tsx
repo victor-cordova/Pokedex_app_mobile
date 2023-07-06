@@ -1,6 +1,5 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { PokedexStackParamList } from "../types/navigation";
-import { DetailedCard } from "../components/DetailedCard";
 import { Platform, SafeAreaView, StyleSheet, View } from "react-native";
 import Header from "../components/pokemon/Header";
 import { useState } from "react";

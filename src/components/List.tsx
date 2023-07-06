@@ -1,7 +1,8 @@
 import { ActivityIndicator, FlatList, StyleSheet, SafeAreaView, Platform, useWindowDimensions } from "react-native";
 
 import { Pokemon } from "../types/pokemon";
-import { Card, CardV2, CardV3 } from "./Card";
+import { Card } from "./Card";
+import { TEXT_COLORS } from "../utils/constants";
 
 interface ListI {
     selectPokemon: (pokemon: Pokemon) => void,
@@ -15,16 +16,10 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
     return (
         <SafeAreaView style={{
             width: "100%",
-            // marginBottom: 60,
-            // height: useWindowDimensions().height - 120,
-            // justifyContent: "center",,
-            // alignSelf: "center",
-            // alignItems: "center",
-            // alignContent: "center",
         }}>
             <FlatList
                 data={pokemons}
-                renderItem={({ item }) => <CardV3 pokemon={item} onPress={selectPokemon}/>}
+                renderItem={({ item }) => <Card pokemon={item} onPress={selectPokemon}/>}
                 keyExtractor={(item, index) => String(index)}
                 contentContainerStyle={[styles.list, styles.border, {
 
@@ -58,8 +53,8 @@ const styles = StyleSheet.create({
         // marginBottom: 60
     },
     border: {
-        borderColor: "red",
-        borderWidth: 1,
-        borderRadius: 1
+        // borderColor: "red",
+        // borderWidth: 1,
+        // borderRadius: 1
     },
 });

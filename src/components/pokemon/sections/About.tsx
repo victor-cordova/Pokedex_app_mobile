@@ -3,6 +3,7 @@ import { Badge } from "../../Badge";
 import { Pokemon } from "../../../types/pokemon";
 import { getPokemonTypeColor } from "../../../utils/getColors";
 import { AXIS, Spacer } from "../../Spacer";
+import React from "react";
 
 interface AboutI {
     pokemon: Pokemon
@@ -38,7 +39,7 @@ export function About({pokemon}:AboutI) {
 
             <View style={[styles.badgeContainer, styles.border]}>
                 {pokemon.types.map((type, index) => 
-                    <>
+                    <React.Fragment key={index + "type0"}>
                         {index % 2 !== 0 && 
                             <Spacer size={16} axis={AXIS.X} key={index + "type1"}/>}
                             <Badge 
@@ -47,7 +48,7 @@ export function About({pokemon}:AboutI) {
                                 key={index + "type2"}
                             />
                         
-                    </>
+                    </React.Fragment>
                 )}
             </View>
 

@@ -4,6 +4,7 @@ import { useGetPokemons } from "../hooks/useGetPokemons";
 import { Pokemon } from "../types/pokemon";
 import { List } from "../components/List";
 import { SafeAreaView, Platform, StyleSheet } from "react-native";
+import { TEXT_COLORS } from "../utils/constants";
 
 export default function Pokedex({ navigation }: StackScreenProps<PokedexStackParamList, "Pokedex">): JSX.Element {
   const { pokemons, fetchPokemons, isNext } = useGetPokemons();
@@ -23,7 +24,8 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: Platform.OS === "android"? 50: 0,
     paddingHorizontal: 16,
-    backgroundColor: "red"
+    // backgroundColor: TEXT_COLORS.light.title,
+    // backgroundColor: "red"
   },
   border: {
     // borderColor: "red",

@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, Text } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 interface PokedexI {
     focused: boolean,
@@ -6,20 +6,15 @@ interface PokedexI {
 }
 
 export default function Pokedex({focused, size}: PokedexI) {
-    return (
-      // <View style={[styles.border, {
-      //   alignItems: "center",
-      //   // alignSelf: "center"
-      // }]}>
-        <Image 
-          style={[styles.icon, {
-            width: size, 
-            height: size
-          }]} 
-          source={focused?require("../../../assets/pokeball_focused.png"):require("../../../assets/pokeball.png")}
-        />
-        
-    )
+  return (
+    <Image 
+      style={[styles.icon, {
+        width: size, 
+        height: size
+      }]} 
+      source={focused?require("../../../assets/pokeball_focused.png"):require("../../../assets/pokeball.png")}
+    />
+  )
 }
 
 const styles = StyleSheet.create({

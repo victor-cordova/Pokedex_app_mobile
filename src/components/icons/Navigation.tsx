@@ -19,7 +19,7 @@ export default function Navigation ({color, focused, route, size}: NavigationIco
         iconName = focused
           ? 'person'
           : 'person-outline';
-      } else if (route.name === 'Favorite') {
+      } else if (route.name === 'FavoriteNavigation') {
         iconName = focused ? 'heart' : 'heart-outline';
       } 
   

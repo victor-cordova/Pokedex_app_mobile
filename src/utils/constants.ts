@@ -1,4 +1,5 @@
 export const API_HOST = "https://pokeapi.co/api/v2";
+export const FAVORITE_IDS_KEY = "favorite-ids";
 
 export const POKEMON_TYPE_COLORS: Record<string, string> = {
   bug: "#A8B820",

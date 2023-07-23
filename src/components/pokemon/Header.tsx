@@ -1,12 +1,30 @@
 import { StyleSheet, View, Image, Text } from "react-native";
 import { Pokemon } from "../../types/pokemon";
 import { AXIS, Spacer } from "../Spacer";
+import { FavoriteButton } from "../FavoriteButton";
+import { useState } from "react";
+import { saveFavoriteId, removeFavoriteId } from "../../services/favorite";
 
 interface HeaderI {
     pokemon: Pokemon,
+    // handleFavorite: (id: number) => void,
+    isFocused: boolean,
 }
 
-export default function Header( {pokemon}: HeaderI) {
+export function Header( {pokemon, isFocused}: HeaderI) {
+    const [isFavorite, setIsFavorite] = useState(isFocused);
+
+    function handleOnPress() {
+        const id = pokemon.order;
+
+        if (isFavorite) {
+            removeFavoriteId(id);
+            setIsFavorite(false);
+        } else {
+            saveFavoriteId(id);
+            setIsFavorite(true);
+        }
+    }
     
     return (
         <View style={[styles.header, styles.border, {
@@ -25,7 +43,7 @@ export default function Header( {pokemon}: HeaderI) {
 
             <View style={[styles.orderContainer, styles.border]}>
                 <Image 
-                    source={require("../../../assets/icon-pokeball.png")}
+                    source={require("../../../assets/icon_pokeball.png")}
                     style={[styles.icon, styles.border]}  
                 />
                 
@@ -33,6 +51,7 @@ export default function Header( {pokemon}: HeaderI) {
                     {" " + `${pokemon.order}`.padStart(4, "0")}
                 </Text>
             </View>
+            <FavoriteButton id={pokemon.order} isFocused={isFavorite} handleOnPress={handleOnPress}/>
         </View>
     )    
 }

@@ -1,21 +1,39 @@
 import { useState } from "react";
-import { Pokemon } from "../types/pokemon";
-
-interface PropsI {
-
-}
 
 export function useFavoritePokemons() {
-    const [favorite, setFavorite] = useState<Pokemon[]>([]);
+    const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
 
-    function addFavorite(item: Pokemon) {
-        setFavorite((current) => {
-            return [...current, item];
-        })
+    function addId(id: number) {
+        const wasFound = favoriteIds.find(favorite => favorite === id) !== undefined;
+        
+        console.log("favorites: ", favoriteIds);
+        if (!wasFound) {
+            setFavoriteIds((current) => {
+                return [...current, id];
+            })
+        }        
+    }
+
+    function deleteId(id: number) {
+        const filteredIds = favoriteIds.filter(favoriteId => favoriteId !== id);
+        
+        if (favoriteIds.length > filteredIds.length) {
+            setFavoriteIds(filteredIds);
+          }
+
+        
+    }
+
+    function findId(id: number): boolean{
+        return favoriteIds.findIndex(iter => iter === id) > -1;
     }
 
     return {
-        favorite,
-        addFavorite,
+        favoriteIds,
+        addId,
+        deleteId,
+        findId
     }
 }
+
+// useState for favoriteIds, save the favoriteIds in async... package, 

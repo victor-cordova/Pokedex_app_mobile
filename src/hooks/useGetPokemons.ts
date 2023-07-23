@@ -3,12 +3,14 @@ import { API_HOST, STATS } from "../utils/constants";
 import { getColor } from "../utils/getColors";
 import { Pokemon, PokemonList, PokemonData } from '../types/pokemon';
 import { capitalize } from "lodash";
+import { fetchColor, fetchDetailedPokemon, fetchPokemons } from '../services/pokemon';
 
 const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
     return data.map((item, index) => {
         const types = item.types.map(iter => capitalize(iter.type.name));
         const abilities = item.abilities.map(ability => ability.ability.name);
         const moves = item.moves.slice(0, 32).map(move => move.move.name);
+        
         return {
             name: capitalize(item.name),
             order: item.id,
@@ -45,65 +47,46 @@ const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
     })
 }
 
-async function fetchColor (url: string): Promise<string> {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-
-        return data.color.name;
-    } catch (error) {
-        throw error;
-    };
-}
-
-async function fetchPokemon (url: string): Promise<PokemonData> {
-    try {
-        const response = await fetch(url);
-        const data: PokemonData = await response.json();
-
-        return data;
-    } catch (error) {
-        throw error;
-    };
-}
-
 export function useGetPokemons() {
     const [pokemons, setPokemons] = useState<Pokemon[]>([]);
     const [page, setPage] = useState<number>(0);
     const [isNext, setNext] = useState<boolean>(true);
 
-    async function fetchPokemons () {
+    async function loadPokemons() {
         try {
-            const url = `${API_HOST}/pokemon?limit=10&offset=${page * 10}`;
-            let id = "0";
-            const response = await fetch(url);
-            const data: PokemonList = await response.json();
-            const pokemonData: PokemonData[]= await Promise.all(data.results.map(({url}) => (
-                fetchPokemon(url)
+            // console.log("Renderin useGetPokemons");
+            let id = 0;
+            const data = await fetchPokemons(page);
+            const detailedPokemons: PokemonData[]= await Promise.all(data.results.map(({url}) => (
+                fetchDetailedPokemon(url)
             )));
 
             const colors = await Promise.all(data.results.map(({url}) => {
-                id = url.match(/\d+/g)[1];
+                id = Number(url.match(/\d+/g)[1]);
                 return fetchColor(`${API_HOST}/pokemon-species/${id}/`);
                 
             }));
             
-            setNext(data.next === null ?false:true);
-            setPokemons([...pokemons, ...resumeData(pokemonData, colors)]);
+            setNext(data.next === null ? false : true);
+            setPokemons((curr) => 
+                [...curr, ...resumeData(detailedPokemons, colors)]
+            );
             setPage(page+1);
         } catch (error) {
             throw error;
-        };
+        }
     }
 
+
+
     useEffect( () => {
-        fetchPokemons();
+        loadPokemons();
     }
     , [])
 
     return {
         pokemons,
-        fetchPokemons,
-        isNext
+        isNext,
+        loadPokemons,
     }
 }

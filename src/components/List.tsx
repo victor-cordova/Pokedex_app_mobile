@@ -1,25 +1,47 @@
-import { ActivityIndicator, FlatList, StyleSheet, SafeAreaView, Platform, useWindowDimensions } from "react-native";
+import { FlatList, StyleSheet, SafeAreaView } from "react-native";
 
-import { Pokemon } from "../types/pokemon";
-import { Card } from "./Card";
-import { TEXT_COLORS } from "../utils/constants";
+import { Pokemon, PokemonList } from "../types/pokemon";
+import { Card } from "./card";
+
 
 interface ListI {
     selectPokemon: (pokemon: Pokemon) => void,
     pokemons: Pokemon[],
-    fetchPokemons: () => Promise<void>,
-    isNext: boolean,
+    favoritesId: number[],
+    addId: (id: number) => void,
+    findId: (id: number) => boolean,
+    deleteId: (id: number) => void,
+    isNext?: boolean,
+    loadPokemons?: () => Promise<void>,
 }
 
-
-export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) {
+export function List({ 
+    selectPokemon, 
+    pokemons, 
+    isNext, 
+    loadPokemons,
+    favoritesId,
+    addId,
+    deleteId,
+    findId
+}: ListI) {
+    const isInfinite = loadPokemons !== undefined && isNext !== undefined;
+    
     return (
         <SafeAreaView style={{
             width: "100%",
         }}>
             <FlatList
                 data={pokemons}
-                renderItem={({ item }) => <Card pokemon={item} onPress={selectPokemon}/>}
+                renderItem={({ item }) => 
+                <Card 
+                    pokemon={item} 
+                    onPress={selectPokemon}
+                    favoritesId={favoritesId}
+                    addId={addId}
+                    deleteId={deleteId}
+                    findId={findId}
+                />}
                 keyExtractor={(item, index) => String(index)}
                 contentContainerStyle={[styles.list, styles.border, {
 
@@ -27,16 +49,18 @@ export function List({ selectPokemon, pokemons, fetchPokemons, isNext }: ListI) 
                 style={{
                     // height: "90%"
                 }}
-                onEndReached={isNext && fetchPokemons}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={
-                    isNext && 
-                    <ActivityIndicator
-                        size={"large"}
-                        style={styles.spinner}
-                        // color={"#AEAEAE"}
-                    />
-                }
+                // onEndReached={
+                //     (isInfinite && isNext) &&
+                //     loadPokemons}
+                // onEndReachedThreshold={0.5}
+                // ListFooterComponent={
+                //     (isInfinite && isNext)
+                //         && 
+                //     <ActivityIndicator
+                //         size={"large"}
+                //         style={styles.spinner}
+                //     />
+                // }
             />
         </SafeAreaView>
     )

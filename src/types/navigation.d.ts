@@ -3,25 +3,40 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { Pokemon } from './pokemon';
 
+interface PokemonProps {
+    data: Pokemon,
+    isFocused: boolean
+}
+
 export type RootStackParamList = {
-    PokedexNavigation: undefined;
-    Favorite: undefined;
+    PokedexNavigation: NavigatorScreenParams<PokedexStackParamList>;
+    FavoriteNavigation: NavigatorScreenParams<PokedexStackParamList>;
     Account: undefined;
 };
 
-export type PokedexTabParamList = {
-    Pokemon: undefined;
+export type PokedexStackParamList = {
+    Pokedex: NavigatorScreenParams<PokemonTabParamList>;
+    Pokemon: PokemonProps
+};
+
+export type FavoriteStackParamList = {
+    Favorite: NavigatorScreenParams<PokemonTabParamList>;
+    Pokemon: PokemonProps;
+};
+
+
+export type PokemonTabParamList = {
+    Pokemon: PokemonProps;
 }
-  
+
+
 export type RootStackScreenProps<T extends keyof RootStackParamList> = StackScreenProps<RootStackParamList, T>;
 
 export type PokedexStackScreenProps<T extends keyof PokedexStackParamList> = StackScreenProps<PokedexStackParamList, T>;
 
-export type PokedexStackParamList = {
-    Pokedex: NavigatorScreenParams<PokedexTabParamList>;
-    Pokemon: Pokemon;
-};
-  
+export type FavoriteStackScreenProps<T extends keyof FavoriteStackParamList> = StackScreenProps<FavoriteStackParamList, T>;
+
+
 declare global {
     namespace ReactNavigation {
         interface RootParamList extends RootStackParamList {}

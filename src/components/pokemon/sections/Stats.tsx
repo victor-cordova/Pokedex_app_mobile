@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-import { StatBar } from "../../StatBar";
+import { StatBar } from "../StatBar";
 
 import { STATS } from "../../../utils/constants";
 import { getPokemonStatColor } from "../../../utils/getColors";

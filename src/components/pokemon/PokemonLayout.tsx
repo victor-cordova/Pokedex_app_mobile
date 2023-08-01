@@ -3,15 +3,16 @@ import { Header } from "./Header";
 import { useState } from "react";
 import { SegmentedButtons } from "./SegmentedButtons";
 import { SECTIONS, SectionHandler } from './SectionHandler'
-import { AXIS, Spacer } from "../../components/Spacer";
+import { AXIS, Spacer } from "../Spacer";
 import { Pokemon } from "../../types/pokemon";
 
-interface PokemonI {
+interface PokemonLayoutI {
     data: Pokemon,
-    isFocused: boolean,
+	handleOnButtonPress: () => void,
+	isFocused: boolean,
 }
 
-export function PokemonComponent ({ data, isFocused }: PokemonI): JSX.Element {
+export function PokemonLayout ({ data, handleOnButtonPress, isFocused }: PokemonLayoutI): JSX.Element {
   const [sectionSelected, setSectionSelected] = useState<SECTIONS>(SECTIONS.ABOUT);
   const sections: SECTIONS[] = [SECTIONS.ABOUT, SECTIONS.MOVES, SECTIONS.STATS];
 
@@ -23,7 +24,7 @@ export function PokemonComponent ({ data, isFocused }: PokemonI): JSX.Element {
   
   return (   
     <SafeAreaView style={[styles.container, styles.border]}>
-      <Header pokemon={data} isFocused={isFocused}/>
+      <Header pokemon={data} handleOnButtonPress={handleOnButtonPress} isFavorite={isFocused}/>
       <Spacer size={16} axis={AXIS.Y}/>
       <SegmentedButtons sectionSelected={sectionSelected} sections={sections} switchSection={switchSection}/>
       <Spacer size={16}  axis={AXIS.Y}/>

@@ -1,14 +1,16 @@
-import { View, StyleSheet, TouchableOpacity, GestureResponderEvent } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { FavoriteIcon } from "./icons/FavoriteIcon";
 import { TEXT_COLORS } from "../utils/constants";
 
 interface FavoriteButtonI {
-    id: number,
     isFocused: boolean,
-    handleOnPress: (event: GestureResponderEvent) => void,
-  }
+    handleOnPress: () => void
+}
   
-export function FavoriteButton ({ id, handleOnPress, isFocused }: FavoriteButtonI ) {
+export function FavoriteButton ({ 
+	isFocused, 
+	handleOnPress 
+}: FavoriteButtonI ) {
     return (
       <View 
         style={{
@@ -39,7 +41,7 @@ export function FavoriteButton ({ id, handleOnPress, isFocused }: FavoriteButton
                 }, 
                 stylesV2.border
             ]}
-            onPress={(event) => handleOnPress(event)} 
+            onPress={handleOnPress} 
         >
           <FavoriteIcon 
             color="white" 

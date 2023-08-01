@@ -1,6 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FAVORITE_IDS_KEY } from '../utils/constants';
 
+export async function getFavoriteId(id: number): Promise<number | null>  {
+  try {
+    //This is temporary, late i'll be using sqlite.
+    // const response = await AsyncStorage.getItem(FAVORITE_IDS_KEY);
+    // const data = JSON.parse(response);
+    const data = await getFavoriteIds();
+    // const data = 
+    const wasFound = data.find(iter => iter === id) !== undefined;
+
+    return wasFound? id : null;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
 export async function getFavoriteIds(): Promise<number[] | null>  {
   try {
     const response = await AsyncStorage.getItem(FAVORITE_IDS_KEY);
@@ -56,6 +72,20 @@ export async function removeFavoriteId(id: number) {
     if (data.length > dataUpdated.length) {
       await AsyncStorage.setItem(FAVORITE_IDS_KEY, JSON.stringify(dataUpdated));  
     }
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+export async function removeFavoriteIds() {
+  try {
+    // const data = await getFavoriteIds();
+    // const dataUpdated = data.filter(iter => iter !== id);
+
+    // if (data.length > dataUpdated.length) {
+    await AsyncStorage.setItem(FAVORITE_IDS_KEY, JSON.stringify([]));  
+    // }
   } catch (e) {
     console.error(e);
     throw e;

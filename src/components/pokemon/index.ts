@@ -1,2 +1,2 @@
-import { PokemonComponent }from './Pokemon';
-export { PokemonComponent };
+import { PokemonLayout }from './PokemonLayout';
+export { PokemonLayout };

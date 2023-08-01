@@ -1,51 +1,36 @@
 import { PokedexStackScreenProps } from "../types/navigation";
 import { Pokemon } from "../types/pokemon";
 import { List } from "../components/List";
-import { SafeAreaView, Platform, StyleSheet } from "react-native";
-import { useFavoritePokemons } from "../hooks/useFavoritePokemons";
-import { useGetPokemons } from "../hooks/useGetPokemons";
-import { useEffect } from "react";
+import { SafeAreaView, Platform, StyleSheet, Text } from "react-native";
+import { useContext, useMemo } from 'react';
+import { DataContext } from '../contexts/DataContext';
 
 type Props = PokedexStackScreenProps<"Pokedex">;
 
 export function PokedexScreen({ navigation }: Props): JSX.Element {
-  const {
-    pokemons,
-    isNext,
-    loadPokemons,
-  } = useGetPokemons();
-
-  const {
-    addId,
-    deleteId,
-    favoriteIds,
-    findId
-  } = useFavoritePokemons();
-
   // useEffect(() => {
-  //   console.log("Se está renderizando pokedexScreen.");
+  //   console.log("Se está re-renderizando pokedexScreen.");
   // });
+  const {
+    data,
+    isError,
+    isLoading
+  } = useContext(DataContext);
 
-
-
-  function selectPokemon(data: Pokemon) {
-    navigation.navigate("Pokemon", {
-      data,
-      isFocused: favoriteIds.findIndex(id => id === data.order) >= 0
-    });
-  }
+  // function navigateToPokemonScreen(data: Pokemon, handleButtonPress) {
+  //   navigation.navigate("Pokemon", {
+  //     data,
+  //     handleNavigation: handleButtonPress
+  //   });
+  // }
+  if (isLoading) return <Text>Is loading</Text>
 
   return (
     <SafeAreaView style={[styles.container, styles.border]}>
       <List
-        selectPokemon={selectPokemon}
-        pokemons={pokemons}
-        isNext={isNext}
-        loadPokemons={loadPokemons}
-        favoritesId={favoriteIds}
-        addId={addId}
-        deleteId={deleteId}
-        findId={findId}
+        // selectPokemon={navigateToPokemonScreen}
+        pokemons={data}
+        navigation={navigation}
       />
     </SafeAreaView>
   )

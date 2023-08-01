@@ -2,30 +2,62 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { Pokemon } from "../../types/pokemon";
 import { AXIS, Spacer } from "../Spacer";
 import { FavoriteButton } from "../FavoriteButton";
-import { useState } from "react";
-import { saveFavoriteId, removeFavoriteId } from "../../services/favorite";
+import { useEffect, useState } from "react";
+import { saveFavoriteId, removeFavoriteId, getFavoriteId } from "../../services/favorite";
+import { useToggle } from "../../hooks/useToggle";
 
 interface HeaderI {
     pokemon: Pokemon,
     // handleFavorite: (id: number) => void,
-    isFocused: boolean,
+    handleOnButtonPress: () => void,
+    isFavorite: boolean,
 }
 
-export function Header( {pokemon, isFocused}: HeaderI) {
-    const [isFavorite, setIsFavorite] = useState(isFocused);
+export function Header( {pokemon, handleOnButtonPress, isFavorite}: HeaderI) {
+    const [isFocused, setIsFocused] = useState<boolean>(isFavorite);
 
-    function handleOnPress() {
-        const id = pokemon.order;
+	// function handleOnButtonPress () {
+	// 	setIsFocused(!isFocused);
+	// }
+    const {
+        isSelected,
+        handleToggle
+    } = useToggle({initialState: isFavorite});
 
-        if (isFavorite) {
-            removeFavoriteId(id);
-            setIsFavorite(false);
-        } else {
-            saveFavoriteId(id);
-            setIsFavorite(true);
-        }
-    }
-    
+	
+	// // const favoriteIds = [];
+	// async function checkIfFocused() {
+	//   try {
+	// 	// const favorites = await getFavoriteIds();
+	// 	const favoriteId = await getFavoriteId(pokemon.order);
+	// 	const isFavorite = favoriteId === pokemon.order;
+  
+	// 	// favoriteIds.push(...favorites);
+	// 	if (isFavorite !== isFocused) setIsFocused(isFavorite);
+	//   } catch (error) {
+	// 	throw error;
+	//   }
+	// }
+  
+	// function toggleFocused() {
+	//   if (isFocused) removeFavoriteId(pokemon.order);
+	//   else saveFavoriteId(pokemon.order);
+	//   // console.log(favoriteIds);
+    //   handleOnButtonPress();
+	//   setIsFocused(!isFocused);
+	// }
+
+    function onPress() {
+        if (isFocused) removeFavoriteId(pokemon.order);
+        else saveFavoriteId(pokemon.order);
+        // console.log(favoriteIds);
+        handleOnButtonPress();
+        setIsFocused(!isFocused);
+      }
+  
+	// useEffect(() => {
+	//   checkIfFocused();
+	// }, []);
     return (
         <View style={[styles.header, styles.border, {
             backgroundColor: pokemon.color
@@ -51,7 +83,7 @@ export function Header( {pokemon, isFocused}: HeaderI) {
                     {" " + `${pokemon.order}`.padStart(4, "0")}
                 </Text>
             </View>
-            <FavoriteButton id={pokemon.order} isFocused={isFavorite} handleOnPress={handleOnPress}/>
+            <FavoriteButton isFocused={isFocused} handleOnPress={onPress}/>
         </View>
     )    
 }

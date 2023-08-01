@@ -1,66 +1,49 @@
-import { FlatList, StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, VirtualizedList } from "react-native";
 
-import { Pokemon, PokemonList } from "../types/pokemon";
-import { Card } from "./card";
+import { Pokemon} from "../types/pokemon";
+import { CardLayout } from "./card";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { PokedexStackParamList } from "../types/navigation";
 
+type navigationI = StackNavigationProp<PokedexStackParamList, "Pokedex", undefined>
 
 interface ListI {
-    selectPokemon: (pokemon: Pokemon) => void,
+    // navigateToPokemonScreen: (data: Pokemon, handleButtonPress: any) => void,
     pokemons: Pokemon[],
-    favoritesId: number[],
-    addId: (id: number) => void,
-    findId: (id: number) => boolean,
-    deleteId: (id: number) => void,
-    isNext?: boolean,
-    loadPokemons?: () => Promise<void>,
+    navigation: navigationI,
 }
 
 export function List({ 
-    selectPokemon, 
+    // navigateToPokemonScreen, 
     pokemons, 
-    isNext, 
-    loadPokemons,
-    favoritesId,
-    addId,
-    deleteId,
-    findId
+    navigation
 }: ListI) {
-    const isInfinite = loadPokemons !== undefined && isNext !== undefined;
+
+    function getItemCount(data: Pokemon[]): number {
+        return data.length;
+    }
+
+    function getItem(data: Pokemon[], index: number): Pokemon {
+        return data[index];
+    }
     
     return (
         <SafeAreaView style={{
             width: "100%",
         }}>
-            <FlatList
+            <VirtualizedList
                 data={pokemons}
-                renderItem={({ item }) => 
-                <Card 
-                    pokemon={item} 
-                    onPress={selectPokemon}
-                    favoritesId={favoritesId}
-                    addId={addId}
-                    deleteId={deleteId}
-                    findId={findId}
-                />}
-                keyExtractor={(item, index) => String(index)}
-                contentContainerStyle={[styles.list, styles.border, {
-
-                }]}
-                style={{
-                    // height: "90%"
-                }}
-                // onEndReached={
-                //     (isInfinite && isNext) &&
-                //     loadPokemons}
-                // onEndReachedThreshold={0.5}
-                // ListFooterComponent={
-                //     (isInfinite && isNext)
-                //         && 
-                //     <ActivityIndicator
-                //         size={"large"}
-                //         style={styles.spinner}
-                //     />
-                // }
+                initialNumToRender={30}
+                renderItem={({item}) => 
+                    <CardLayout 
+                        pokemon={item} 
+                        // onCardPress={navigateToPokemonScreen}
+                        navigation={navigation}
+                    />
+                }
+                keyExtractor={({order}) => String(order)}
+                getItemCount={getItemCount}
+                getItem={getItem}
             />
         </SafeAreaView>
     )

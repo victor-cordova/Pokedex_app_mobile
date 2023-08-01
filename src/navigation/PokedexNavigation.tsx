@@ -7,6 +7,7 @@ import { PokedexScreen } from '../screens/PokedexScreen';
 import { useFavoritePokemons } from '../hooks/useFavoritePokemons';
 
 const PokedexN = createStackNavigator<PokedexStackParamList>();
+// Create a client
 
 export function PokedexNavigation({}
   // : StackScreenProps<PokedexStackParamList>
@@ -18,6 +19,7 @@ export function PokedexNavigation({}
     deleteId,
     findId
   } = useFavoritePokemons();
+  // const Component = await <PokedexScreen/>;
 
   return (
     <PokedexN.Navigator screenOptions={() => ({

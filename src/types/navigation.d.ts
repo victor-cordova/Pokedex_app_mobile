@@ -5,7 +5,8 @@ import { Pokemon } from './pokemon';
 
 interface PokemonProps {
     data: Pokemon,
-    isFocused: boolean
+    handleToggle: () => void,
+    isSelected: boolean,
 }
 
 export type RootStackParamList = {

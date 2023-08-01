@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { View, Animated, StyleSheet, useWindowDimensions, Text } from 'react-native';
 
 interface StatBarI {
@@ -10,19 +10,30 @@ interface StatBarI {
 export function StatBar ({ stat, color, max }: StatBarI) {
   const size = useWindowDimensions();
   const windowWidth = size.width;
-  const width = new Animated.Value(0);
+  // const width = new Animated.Value(0);
+  const width = useRef(new Animated.Value(0)).current;
 
   //40 is subtracted from the 90% of the windowWidth, because each detailedCard width is 90% of the window. And the 40 is because has a 20 padding in both sides.
   // 300 and 1000 bug
   const statNormalized = (stat / max) * (windowWidth - 30 - 32 - 32);
+  // Animated.spring(
+  //   width, {
+  //     friction: 7,
+  //     toValue: 200,
+  //     speed: 12,
+  //     bounciness: 8,
 
-  useEffect(() => {
+  //   }
+  // )
+  // Animated.loop(
     Animated.timing(width, {
       toValue: statNormalized,
       duration: 200,
       useNativeDriver: false,
+      // easing: 
     }).start();
-  }, []);
+  // ).start();
+  
 
   return (
     <View style={[styles.container, styles.border]}>

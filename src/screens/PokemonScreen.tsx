@@ -1,15 +1,16 @@
 import { PokedexStackScreenProps } from "../types/navigation";
-import { PokemonComponent } from "../components/pokemon";
+import { PokemonLayout } from "../components/pokemon";
 
 type Props = PokedexStackScreenProps<"Pokemon">;
 
 export function PokemonScreen ({route}: Props): JSX.Element {
     const {
         data,
-        isFocused
+        isSelected,
+        handleToggle
     } = route.params;
 
     return (   
-        <PokemonComponent data={data} isFocused={isFocused}/>
+        <PokemonLayout data={data} handleOnButtonPress={handleToggle} isFocused={isSelected}/>
     )
 }

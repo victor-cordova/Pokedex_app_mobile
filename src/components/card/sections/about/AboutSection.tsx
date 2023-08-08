@@ -1,11 +1,11 @@
 import { StyleSheet, View, Text } from "react-native";
-import { Badge } from "../../Badge";
-import { Pokemon } from "../../../types/pokemon";
-import { getPokemonTypeColor } from "../../../utils/getColors";
-import { AXIS, Spacer } from "../../Spacer";
+import { Badge } from "../../../Badge";
+import { Pokemon } from "../../../../types/pokemon";
+import { getPokemonTypeColor } from "../../../../utils/getColors";
+import { AXIS, Spacer } from "../../../Spacer";
 import React from "react";
 
-interface AboutI {
+interface AboutSectionI {
     pokemon: Pokemon
 }
 
@@ -30,7 +30,7 @@ function MeasurableBadge({ label, text, unitOfMeasure }: MeasurableBadgeI) {
     )
 }
 
-export function About({pokemon}:AboutI) {
+export function AboutSection({pokemon}:AboutSectionI) {
     return (
         <View style={[styles.container, styles.border]}>
             <Text style={[styles.border]}>Type</Text>

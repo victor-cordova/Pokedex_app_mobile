@@ -1,99 +1,52 @@
-import { Button, GestureResponderEvent, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Platform, SafeAreaView, StyleSheet } from "react-native";
+import { Header } from "./Header";
+import { useContext, useState } from "react";
+import { SegmentedButtons } from "./SegmentedButtons";
+import { SECTIONS, SectionHandler } from './SectionHandler'
+import { AXIS, Spacer } from "../Spacer";
+import { DataContext } from "../../contexts/DataContext";
 import { Pokemon } from "../../types/pokemon";
-import { TEXT_COLORS } from "../../utils/constants";
-import React, { useEffect, memo, useState } from "react";
-import { ImageSection } from "./ImageSection";
-import { InfoSection } from "./InfoSection";
-import { FavoriteButton } from "../FavoriteButton";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { PokedexStackParamList } from "../../types/navigation";
-import { getFavoriteId, removeFavoriteId, saveFavoriteId } from "../../services/favorite";
-import { useToggle } from "../../hooks/useToggle";
-
-type navigationI = StackNavigationProp<PokedexStackParamList, "Pokedex", undefined>;
 
 interface CardLayoutI {
-	pokemon: Pokemon ,
-	navigation: navigationI,
+  data: Pokemon
 }
 
-export function CardLayout ({ 
-	pokemon, 
-	navigation
-}: CardLayoutI) {
-	const {
-		isSelected,
-		handleToggle
-	} = useToggle({initialState: false});
+export function CardLayout ({ data }: CardLayoutI): JSX.Element {
+  // const data = useContext(DataContext).pokemonsQuery.data[id - 1];
+  const [sectionSelected, setSectionSelected] = useState<SECTIONS>(SECTIONS.ABOUT);
+  const sections: SECTIONS[] = [SECTIONS.ABOUT, SECTIONS.MOVES, SECTIONS.STATS];
 
-
-	function navigateToPokemonScreen(data: Pokemon) {
-	  navigation.navigate("Pokemon", {
-		data,
-		handleToggle,
-		isSelected
-	  });
-	}
-
-	async function checkIfSelected() {
-		try {
-			const favoriteId = await getFavoriteId(pokemon.order);
-			const isFavorite = favoriteId === pokemon.order;
-
-			if (isFavorite !== isSelected) handleToggle();
-		} catch (error) {
-			throw error;
-		}
-	}
-
-	function handleOnPress () {
-		if (isSelected) removeFavoriteId(pokemon.order);
-		else saveFavoriteId(pokemon.order);
-
-		handleToggle()
-	}
+  function switchSection(section: SECTIONS) {
+    setSectionSelected(section);
+  }
   
-	useEffect(() => {
-	  checkIfSelected();
-	}, []);
-	
-  return (
-	<TouchableWithoutFeedback 
-		onPress={() => navigateToPokemonScreen(pokemon)} 
-		style={[stylesV2.container, stylesV2.border]}
-	>
-	  <React.Fragment>
-		<ImageSection data={pokemon}/>
-		<InfoSection data={pokemon}/>
-		<FavoriteButton isFocused={isSelected} handleOnPress={handleOnPress}/>
-	  </React.Fragment>
-	</TouchableWithoutFeedback>
-  )
+  return (   
+    <SafeAreaView style={[styles.container, styles.border]}>
+      <Header data={data}/>
+      <Spacer size={16} axis={AXIS.Y}/>
+      <SegmentedButtons sectionSelected={sectionSelected} sections={sections} switchSection={switchSection}/>
+      <Spacer size={16}  axis={AXIS.Y}/>
+      <SectionHandler data={data} selected={sectionSelected}/>
+    </SafeAreaView>
+    )
 }
 
-const stylesV2 = StyleSheet.create({
-  border: {
-	// borderColor: "red",
-	// borderWidth: 1,
-	// borderRadius: 1
-  },
+const styles = StyleSheet.create({
   container: {
-	height: 152,
-	// height: 402,
-	width: "100%",
-	backgroundColor: TEXT_COLORS.light.background,
-	// position: "relative",
-	
+    height: "100%",
+    width: "100%",
+    // flex: 1,
+    // backgroundColor: "green",
 
-	flexDirection: "row",
-	// alignSelf: "center",
-	alignItems: "center",
-	justifyContent: "space-between",
-
-	// borderColor: "black",
-	// borderWidth: 1,
-	borderRadius: 12,
-	marginBottom: 8,
+    paddingTop: Platform.OS === "android"? 30: 0,
+    // paddingBottom: 350,
+    // paddingHorizontal: 20
+    
+    // justifyContent: "center",
   },
-});
+  border: {
+    // borderColor: "red",
+    // borderWidth: 1,
+    // borderRadius: 1
+  },
+})

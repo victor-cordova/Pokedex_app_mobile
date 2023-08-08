@@ -1,12 +1,12 @@
 import { StyleSheet, View, Image, Text } from "react-native";
-import { StatBar } from "../StatBar";
+import { StatBar } from "./StatBar";
 
-import { STATS } from "../../../utils/constants";
-import { getPokemonStatColor } from "../../../utils/getColors";
-import { Pokemon } from "../../../types/pokemon";
-import { AXIS, Spacer } from "../../Spacer";
+import { STATS } from "../../../../utils/constants";
+import { getPokemonStatColor } from "../../../../utils/getColors";
+import { Pokemon } from "../../../../types/pokemon";
+import { AXIS, Spacer } from "../../../Spacer";
 
-interface StatsI {
+interface StatsSectionI {
     pokemon: Pokemon
 }
 
@@ -37,7 +37,7 @@ function BarLabeled({index, label, stat}: BarLabeledI) {
     )
 }
 
-export function Stats({ pokemon }: StatsI) {
+export function StatsSection({ pokemon }: StatsSectionI) {
     return (
         <View style={[styles.border, styles.container]}>
             {pokemon.stats.map((stat, index) => <BarLabeled key={index} index={index} label={stat.name} stat={stat.stat}/>)}

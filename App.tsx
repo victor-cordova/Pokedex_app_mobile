@@ -30,18 +30,16 @@ export default function Root() {
 
 function App(): JSX.Element {
   const {
-    data,
-    isError,
-    isLoading
+    pokemonsQuery,
   } = useContext(DataContext);
 
   async function hideSplashScreen() {
     await SplashScreen.hideAsync();
   }
   
-  if (!isLoading) hideSplashScreen();
+  if (!pokemonsQuery.isLoading) hideSplashScreen();
 
-  if (isLoading) {
+  if (pokemonsQuery.isLoading) {
     return null;
   }
 

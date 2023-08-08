@@ -44,7 +44,7 @@ export async function fetchData (limit: number): Promise<PokemonList> {
 
 export async function fetchPokemons (limit: number): Promise<PokemonList> {
     try {
-        const url = `${API_HOST}/pokemon?limit=${40}&offset=0`;
+        const url = `${API_HOST}/pokemon?limit=${20}&offset=0`;
         // const url = `${API_HOST}/pokemon?limit=50&offset=${page * 50}`;
         const response = await fetch(url);
         const data: PokemonList = await response.json();
@@ -101,23 +101,35 @@ const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
     })
 }
 
-
 export async function loadPokemons() {
-    try {
-        let id = 0;
-        const data = await fetchPokemons(100);
-        const detailedPokemons: PokemonData[]= await Promise.all(data.results.map(({url}) => (
-            fetchDetailedPokemon(url)
-        )));
+	try {
+		let id = 0;
+		const data = await fetchPokemons(100);
+		const detailedPokemons: PokemonData[]= await Promise.all(data.results.map(({url}) => (
+			fetchDetailedPokemon(url)
+		)));
 
-        const colors = await Promise.all(data.results.map(({url}) => {
-            id = Number(url.match(/\d+/g)[1]);
-            return fetchColor(`${API_HOST}/pokemon-species/${id}/`);
-            
-        }));
+		const colors = await Promise.all(data.results.map(({url}) => {
+			id = Number(url.match(/\d+/g)[1]);
 
-        return resumeData(detailedPokemons, colors);
-    } catch (error) {
-        throw error;
-    }
+			return fetchColor(`${API_HOST}/pokemon-species/${id}/`);
+		}));
+
+		return resumeData(detailedPokemons, colors);
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function loadPokemon(id: number): Promise<Pokemon> {
+	try {
+		let url = `${API_HOST}/pokemon/${id}`;
+		let color_url = `${API_HOST}/pokemon-species/${id}`;
+		const detailedPokemon: PokemonData = await fetchDetailedPokemon(url);
+		const color = await fetchColor(color_url);
+
+		return resumeData([detailedPokemon], [color])[0];
+	} catch (error) {
+		throw error;
+	}
 }

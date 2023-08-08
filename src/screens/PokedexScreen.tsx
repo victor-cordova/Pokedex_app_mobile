@@ -5,31 +5,19 @@ import { SafeAreaView, Platform, StyleSheet, Text } from "react-native";
 import { useContext, useMemo } from 'react';
 import { DataContext } from '../contexts/DataContext';
 
-type Props = PokedexStackScreenProps<"Pokedex">;
+type Props = PokedexStackScreenProps<"Pokemons">;
 
 export function PokedexScreen({ navigation }: Props): JSX.Element {
-  // useEffect(() => {
-  //   console.log("Se está re-renderizando pokedexScreen.");
-  // });
   const {
-    data,
-    isError,
-    isLoading
-  } = useContext(DataContext);
-
-  // function navigateToPokemonScreen(data: Pokemon, handleButtonPress) {
-  //   navigation.navigate("Pokemon", {
-  //     data,
-  //     handleNavigation: handleButtonPress
-  //   });
-  // }
-  if (isLoading) return <Text>Is loading</Text>
+    data
+  } = useContext(DataContext).pokemonsQuery;
 
   return (
     <SafeAreaView style={[styles.container, styles.border]}>
       <List
         // selectPokemon={navigateToPokemonScreen}
         pokemons={data}
+        // favoriteIds={favoriteIdsQuery.data}
         navigation={navigation}
       />
     </SafeAreaView>

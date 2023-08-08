@@ -1,21 +1,61 @@
-import { View, Text, SafeAreaView } from "react-native";
-import { Pokemon } from "../types/pokemon";
+import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getFavoriteIds } from "../services/favorite";
+import { useContext, useMemo } from "react";
+import { DataContext } from "../contexts/DataContext";
+import { FavoriteStackScreenProps } from "../types/navigation";
+import { List } from "../components/List";
+import { SafeAreaView, Platform, StyleSheet, Text } from "react-native";
 
-interface FavoriteI {
-  // data: Pokemon[],
+type Props = FavoriteStackScreenProps<"Pokemons">;
 
-  ids: number[],
-  addIds: (id: number) => void,
-  deleteId: (id: number) => void
-}
+export function FavoriteScreen ({ navigation }: Props): JSX.Element {
+  const data = useContext(DataContext).pokemonsQuery.data;
 
-export function FavoriteScreen ({ addIds, ids}: FavoriteI): JSX.Element {
+	const {data: ids} = useQuery({
+		queryKey: ["favoriteIds"],
+		queryFn: () => getFavoriteIds(),
+	})
+
+	function resizeIds(ids: number[]) {
+		const {order} = data[data.length - 1];
+		const lastId = ids[ids.length - 1];
+
+		if (lastId <= order) return ids;
+		const newLastIndex = ids.findIndex(id => order < id);
+
+		return ids.slice(0, newLastIndex);
+	}
+
+  function filterData() {
+    if (ids === undefined) return [];
+		const sortedIds = [...ids].sort((a, b) => a - b);
+    console.log("sortedIds: ", sortedIds);
+
+    return resizeIds(sortedIds).map(id => data.find(item => item.order === id));
+  }
+
+  const filteredData = useMemo(filterData, [ids]);
+
   return (
-      <SafeAreaView>
-        {/* <Text>{data[0].name}</Text> */}
-        <Text>This is settingsScreen</Text>
-        <Text>This is settingsScreen</Text>
-        <Text>This is settingsScreen</Text>
-      </SafeAreaView>   
-    )
+    <SafeAreaView style={[styles.container, styles.border]}>
+      <List
+        pokemons={filteredData}
+        navigation={navigation}
+      />
+    </SafeAreaView>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.OS === "android" ? 50 : 0,
+    paddingHorizontal: 16,
+    // backgroundColor: TEXT_COLORS.light.title,
+    // backgroundColor: "red"
+  },
+  border: {
+    // borderColor: "red",
+    // borderWidth: 1,
+    // borderRadius: 1
+  },
+})

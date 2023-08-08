@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FAVORITE_IDS_KEY } from '../utils/constants';
 
-export async function getFavoriteId(id: number): Promise<number | null>  {
+export async function checkIfFavoriteId(id: number): Promise<boolean>  {
   try {
     //This is temporary, late i'll be using sqlite.
     // const response = await AsyncStorage.getItem(FAVORITE_IDS_KEY);
@@ -10,18 +10,18 @@ export async function getFavoriteId(id: number): Promise<number | null>  {
     // const data = 
     const wasFound = data.find(iter => iter === id) !== undefined;
 
-    return wasFound? id : null;
+    return wasFound;
   } catch (e) {
     console.error(e);
     throw e;
   }
 };
 
-export async function getFavoriteIds(): Promise<number[] | null>  {
+export async function getFavoriteIds(): Promise<number[]>  {
   try {
     const response = await AsyncStorage.getItem(FAVORITE_IDS_KEY);
 
-    return response !== null ? JSON.parse(response) : null;
+    return response !== null ? JSON.parse(response) : [];
   } catch (e) {
     console.error(e);
     throw e;
@@ -30,33 +30,14 @@ export async function getFavoriteIds(): Promise<number[] | null>  {
 
 export async function saveFavoriteId (id: number) {
   try {
-    // // Obtener el nombre del archivo de la imagen
-    // const fileName = object.image.split('/').pop();
-    // // Obtener la ruta del directorio de documentos
-    // const dirPath = RNFS.DocumentDirectoryPath;
-    // // Construir la ruta completa del archivo de la imagen
-    // const filePath = `${dirPath}/${fileName}`;
-    // // Descargar la imagen desde la url y guardarla en el archivo
-    // await RNFS.downloadFile({ fromUrl: object.image, toFile: filePath }).promise;
-    // // Actualizar el campo de imagen del objeto con la ruta del archivo
-    // object.image = filePath;
-
-
-    // Obtener el arreglo de objetos guardados previamente o crear uno vacío
-    // const storedIds = JSON.parse(await AsyncStorage.getItem('FAVORITE_IDS')) || [];
-    // Añadir el nuevo objeto al arreglo
     const storedIds = await getFavoriteIds() || []; 
     const wasFound = storedIds.find(storedId => storedId === id) !== undefined;
 
-    // console.log("storedIds: ", storedIds);
     if (!wasFound) {
       storedIds.push(id);
-      // console.log("storedIds: ", storedIds);
-      
 
       await AsyncStorage.setItem(FAVORITE_IDS_KEY, JSON.stringify(storedIds));
     }
-
     
   } catch (e) {
     console.error(e);

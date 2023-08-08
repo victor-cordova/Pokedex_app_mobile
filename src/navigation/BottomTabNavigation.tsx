@@ -5,6 +5,7 @@ import { RootStackParamList } from '../types/navigation';
 
 import { PokedexNavigation } from './PokedexNavigation';
 import NavigationIcons from '../components/icons/Navigation';
+import { FavoriteNavigation } from './FavoriteNavigation';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -12,7 +13,6 @@ export function BottomTabNavigation(): JSX.Element {
   return (
     <Tab.Navigator 
       initialRouteName='PokedexNavigation'
-       
       screenOptions={({ route }) => ({
         tabBarIcon: ({color, focused, size}) => 
           <NavigationIcons 
@@ -33,7 +33,7 @@ export function BottomTabNavigation(): JSX.Element {
         headerShown: false
       })}
     >
-      <Tab.Screen options={{tabBarLabel: "Favorite"}} name="FavoriteNavigation" component={FavoriteScreen}/>
+      <Tab.Screen options={{tabBarLabel: "Favorite"}} name="FavoriteNavigation" component={FavoriteNavigation}/>
 
       <Tab.Screen options={{tabBarLabel: "Pokedex"}} name="PokedexNavigation" component={PokedexNavigation}/>
 

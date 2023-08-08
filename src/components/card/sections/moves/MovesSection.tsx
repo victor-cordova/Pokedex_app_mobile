@@ -1,11 +1,11 @@
 import { StyleSheet, View, Image, Text, FlatList } from "react-native";
-import { Badge } from "../../Badge";
+import { Badge } from "../../../Badge";
 import { capitalize } from "lodash";
-import { AXIS, Spacer } from "../../Spacer";
+import { AXIS, Spacer } from "../../../Spacer";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import React from "react";
 
-interface MovesI {
+interface MovesSectionI {
     abilities: string[],
     moves: string[]
 }
@@ -27,43 +27,41 @@ function Item( {item, index} :ItemI) {
     )
 }
 
-export function Moves({abilities, moves}: MovesI) {
-    return (
-        <View style={[styles.border, styles.container]}>
-            <Text style={[styles.border]}>Abilities</Text>
-            
-            <Spacer size={8} axis={AXIS.Y}/>
+export function MovesSection({abilities, moves}: MovesSectionI) {
+	return (
+		<View style={[styles.border, styles.container]}>
+			<Text style={[styles.border]}>Abilities</Text>
+			
+			<Spacer size={8} axis={AXIS.Y}/>
 
-            <View style={[styles.abilities, styles.border]}>
-                {abilities.map((ability, index) => 
-                    <React.Fragment key={index + "ability0"}>
-                        {index % 2 !== 0 && 
-                            <Spacer size={16} axis={AXIS.X} key={index + "ability1"}/>}
-                            <Badge 
-                                text={capitalize(ability)} 
-                                key={index + "ability2"}
-                            />
-                        
-                    </React.Fragment>
-                )}
+			<View style={[styles.abilities, styles.border]}>
+				{abilities.map((ability, index) => 
+					<React.Fragment key={index + "ability0"}>
+						{index % 2 !== 0 && 
+							<Spacer size={16} axis={AXIS.X} key={index + "ability1"}/>}
+							<Badge 
+								text={capitalize(ability)} 
+								key={index + "ability2"}
+							/>
+					</React.Fragment>
+				)}
+			</View>
 
-            </View>
+			<Spacer size={16} axis={AXIS.Y}/>
 
-            <Spacer size={16} axis={AXIS.Y}/>
+			<Text style={[, styles.border]}>Moves</Text>
 
-            <Text style={[, styles.border]}>Moves</Text>
+			<Spacer size={8} axis={AXIS.Y}/>
 
-            <Spacer size={8} axis={AXIS.Y}/>
-
-            <FlatList
-                data={moves}
-                renderItem={({item, index}) => <Item index={index} item={capitalize(item)}/>}
-                numColumns={2}
-                keyExtractor={(item, index) => index + "list1"}
-                style={[styles.list, styles.border]}
-            />
-        </View>
-    )
+			<FlatList
+				data={moves}
+				renderItem={({item, index}) => <Item index={index} item={capitalize(item)}/>}
+				numColumns={2}
+				keyExtractor={(item, index) => index + "list1"}
+				style={[styles.list, styles.border]}
+			/>
+		</View>
+	)
 }
 
 const styles = StyleSheet.create({

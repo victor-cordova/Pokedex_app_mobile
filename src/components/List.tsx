@@ -1,52 +1,54 @@
 import { StyleSheet, SafeAreaView, VirtualizedList } from "react-native";
 
 import { Pokemon} from "../types/pokemon";
-import { CardLayout } from "./card";
+import { DetailLayout } from "./detail";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { PokedexStackParamList } from "../types/navigation";
+import { PokemonsStackParamList } from "../types/navigation";
 
-type navigationI = StackNavigationProp<PokedexStackParamList, "Pokedex", undefined>
+type navigationI = StackNavigationProp<PokemonsStackParamList, "Pokemons", undefined>
 
 interface ListI {
-    // navigateToPokemonScreen: (data: Pokemon, handleButtonPress: any) => void,
-    pokemons: Pokemon[],
-    navigation: navigationI,
+	// navigateToPokemonScreen: (data: Pokemon, handleButtonPress: any) => void,
+	pokemons: Pokemon[],
+	// favoriteIds: number[],
+	navigation: navigationI,
 }
 
 export function List({ 
-    // navigateToPokemonScreen, 
-    pokemons, 
-    navigation
+	// navigateToPokemonScreen, 
+	pokemons, 
+	// favoriteIds,
+	navigation
 }: ListI) {
 
-    function getItemCount(data: Pokemon[]): number {
-        return data.length;
-    }
+	function getItemCount(data: Pokemon[]): number {
+		return data.length;
+	}
 
-    function getItem(data: Pokemon[], index: number): Pokemon {
-        return data[index];
-    }
+	function getItem(data: Pokemon[], index: number): Pokemon {
+		return data[index];
+	}
     
-    return (
-        <SafeAreaView style={{
-            width: "100%",
-        }}>
-            <VirtualizedList
-                data={pokemons}
-                initialNumToRender={30}
-                renderItem={({item}) => 
-                    <CardLayout 
-                        pokemon={item} 
-                        // onCardPress={navigateToPokemonScreen}
-                        navigation={navigation}
-                    />
-                }
-                keyExtractor={({order}) => String(order)}
-                getItemCount={getItemCount}
-                getItem={getItem}
-            />
-        </SafeAreaView>
-    )
+	return (
+		<SafeAreaView style={{
+			width: "100%",
+		}}>
+			<VirtualizedList
+				data={pokemons}
+				initialNumToRender={10}
+				renderItem={({item}) => 
+					<DetailLayout 
+						pokemon={item} 
+						// isFavorite={favoriteIds.findIndex(id => id ===item.order) !== -1}
+						navigation={navigation}
+					/>
+				}
+				keyExtractor={({order}) => String(order)}
+				getItemCount={getItemCount}
+				getItem={getItem}
+			/>
+		</SafeAreaView>
+	)
 }
 
 const styles = StyleSheet.create({

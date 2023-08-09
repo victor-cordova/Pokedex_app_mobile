@@ -2,6 +2,7 @@ import { capitalize } from "lodash";
 import { Pokemon, PokemonData, PokemonList } from "../types/pokemon";
 import { API_HOST, STATS } from "../utils/constants";
 import { getColor } from "../utils/getColors";
+import * as SQLite from 'expo-sqlite';
 
 export async function fetchColor (url: string): Promise<string> {
     try {
@@ -42,9 +43,25 @@ export async function fetchData (limit: number): Promise<PokemonList> {
     };
 }
 
-export async function fetchPokemons (limit: number): Promise<PokemonList> {
+export async function fetchPokemons (limit: number, nextUrl: string | null): Promise<PokemonList> {
+	try {
+		let url = `${API_HOST}/pokemon?limit=${limit}&offset=0`;
+		if (nextUrl !== null) {
+			url = nextUrl;  
+		}
+		const response = await fetch(url);
+		const data: PokemonList = await response.json();
+		return data;
+
+	} catch (e) {
+		console.error(e);
+		throw e;
+	};
+}
+
+export async function fetchWholePokemons (): Promise<PokemonList> {
     try {
-        const url = `${API_HOST}/pokemon?limit=${20}&offset=0`;
+        const url = `${API_HOST}/pokemon?limit=1000&offset=0`;
         // const url = `${API_HOST}/pokemon?limit=50&offset=${page * 50}`;
         const response = await fetch(url);
         const data: PokemonList = await response.json();
@@ -101,10 +118,40 @@ const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
     })
 }
 
-export async function loadPokemons() {
+export async function loadPokemons(nextUrl: string | null): Promise<
+{
+	data:
+	Pokemon[],
+	nextUrl: string | null
+}
+> {
 	try {
 		let id = 0;
-		const data = await fetchPokemons(100);
+		const data = await fetchPokemons(1081, null);
+		const detailedPokemons: PokemonData[]= await Promise.all(data.results.map(({url}) => (
+			fetchDetailedPokemon(url)
+		)));
+
+		const colors = await Promise.all(data.results.map(({url}) => {
+			id = Number(url.match(/\d+/g)[1]);
+
+			return fetchColor(`${API_HOST}/pokemon-species/${id}/`);
+		}));
+
+		return {
+			data: resumeData(detailedPokemons, colors),
+			nextUrl: data.next
+		};
+		// return resumeData(detailedPokemons, colors);
+	} catch (error) {
+		throw error;
+	}
+}
+
+export async function loadWholePokemons() {
+	try {
+		let id = 0;
+		const data = await fetchWholePokemons();
 		const detailedPokemons: PokemonData[]= await Promise.all(data.results.map(({url}) => (
 			fetchDetailedPokemon(url)
 		)));

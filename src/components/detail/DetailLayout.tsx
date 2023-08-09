@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { Pokemon } from "../../types/pokemon";
 import { TEXT_COLORS } from "../../utils/constants";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import { ImageSection } from "./ImageSection";
 import { InfoSection } from "./InfoSection";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -21,11 +21,11 @@ export function DetailLayout ({
 	navigation,
 }: DetailLayoutI) {
 
-	function navigateToPokemonScreen(id: number) {
+	const navigateToPokemonScreen = useCallback((id: number) => {
 	  navigation.navigate("Pokemon", {
 		id,
 	  });
-	}
+	}, []);
 
   return (
 	<TouchableWithoutFeedback 

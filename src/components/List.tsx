@@ -4,6 +4,7 @@ import { Pokemon} from "../types/pokemon";
 import { DetailLayout } from "./detail";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PokemonsStackParamList } from "../types/navigation";
+import { useCallback } from "react";
 
 type navigationI = StackNavigationProp<PokemonsStackParamList, "Pokemons", undefined>
 
@@ -21,13 +22,13 @@ export function List({
 	navigation
 }: ListI) {
 
-	function getItemCount(data: Pokemon[]): number {
+	const getItemCount = useCallback((data: Pokemon[]): number => {
 		return data.length;
-	}
+	}, []);
 
-	function getItem(data: Pokemon[], index: number): Pokemon {
+	const getItem = useCallback((data: Pokemon[], index: number): Pokemon => {
 		return data[index];
-	}
+	}, [])
     
 	return (
 		<SafeAreaView style={{
@@ -35,7 +36,7 @@ export function List({
 		}}>
 			<VirtualizedList
 				data={pokemons}
-				initialNumToRender={10}
+				initialNumToRender={50}
 				renderItem={({item}) => 
 					<DetailLayout 
 						pokemon={item} 
@@ -46,6 +47,7 @@ export function List({
 				keyExtractor={({order}) => String(order)}
 				getItemCount={getItemCount}
 				getItem={getItem}
+				
 			/>
 		</SafeAreaView>
 	)

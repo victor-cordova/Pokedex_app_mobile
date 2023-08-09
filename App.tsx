@@ -4,11 +4,22 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigation }from './src/navigation/BottomTabNavigation';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
+import * as SQLite from 'expo-sqlite';
 import { useContext } from 'react';
 import { DataContext, DataProvider } from './src/contexts/DataContext';
 
 SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
+
+// const db = SQLite.openDatabase("db.db");
+
+// const createTable = () => {
+//   db.transaction(tx => {
+//     tx.executeSql(
+//       'create table if not exists pokemon (id integer primary key not null, name text);'
+//     );
+//   });
+// }
 
 export function useMyQueryContext() {
   const context = useContext(DataContext);

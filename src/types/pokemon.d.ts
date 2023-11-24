@@ -56,11 +56,24 @@ export interface PokemonList {
 }
 // data.sprites.other.home.front_default
 
+export interface PokemonDB {
+    height: number,
+    name: string,
+    id: number,
+    sprite: string,
+    types: string,
+    weight: number,
+    stats: string,
+    abilities: string,
+    moves: string,
+    color: string,
+}
+
 export interface Pokemon {
     height: number,
     name: string,
-    order: number,
-    sprite: string,
+    id: number,
+    sprites: string[],
     types: string[],
     weight: number,
     stats: {
@@ -81,6 +94,9 @@ export interface PokemonData {
         other: {
             home: {
                 front_default: string,
+            },
+            "official-artwork": {
+                front_shiny: string
             }
         }
     },

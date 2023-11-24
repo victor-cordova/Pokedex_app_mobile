@@ -4,22 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigation }from './src/navigation/BottomTabNavigation';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import * as SplashScreen from 'expo-splash-screen';
-import * as SQLite from 'expo-sqlite';
 import { useContext } from 'react';
 import { DataContext, DataProvider } from './src/contexts/DataContext';
+import { IdsDatabase } from './src/db/idsDataBase';
+import { PokemonsDatabase } from './src/db/pokemonsDataBase';
 
 SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
-
-// const db = SQLite.openDatabase("db.db");
-
-// const createTable = () => {
-//   db.transaction(tx => {
-//     tx.executeSql(
-//       'create table if not exists pokemon (id integer primary key not null, name text);'
-//     );
-//   });
-// }
 
 export function useMyQueryContext() {
   const context = useContext(DataContext);
@@ -39,6 +30,9 @@ export default function Root() {
   )
 }
 
+const idsDB = IdsDatabase.getInstance();
+const pokemonsDB = PokemonsDatabase.getInstance();
+
 function App(): JSX.Element {
   const {
     pokemonsQuery,
@@ -48,7 +42,12 @@ function App(): JSX.Element {
     await SplashScreen.hideAsync();
   }
   
-  if (!pokemonsQuery.isLoading) hideSplashScreen();
+  if (!pokemonsQuery.isLoading) {
+    hideSplashScreen();
+    idsDB.createTable();
+    // idsDB.deleteItem();
+    pokemonsDB.deleteData();
+  };
 
   if (pokemonsQuery.isLoading) {
     return null;

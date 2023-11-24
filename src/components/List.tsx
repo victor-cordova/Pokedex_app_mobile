@@ -1,6 +1,6 @@
 import { StyleSheet, SafeAreaView, VirtualizedList } from "react-native";
-
-import { Pokemon} from "../types/pokemon";
+// import { FixedSizeList as VirtualList } from "react-window";
+import { Pokemon, PokemonDB} from "../types/pokemon";
 import { DetailLayout } from "./detail";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PokemonsStackParamList } from "../types/navigation";
@@ -10,7 +10,7 @@ type navigationI = StackNavigationProp<PokemonsStackParamList, "Pokemons", undef
 
 interface ListI {
 	// navigateToPokemonScreen: (data: Pokemon, handleButtonPress: any) => void,
-	pokemons: Pokemon[],
+	pokemons: PokemonDB[],
 	// favoriteIds: number[],
 	navigation: navigationI,
 }
@@ -23,10 +23,10 @@ export function List({
 }: ListI) {
 
 	const getItemCount = useCallback((data: Pokemon[]): number => {
-		return data.length;
+		return data?.length;
 	}, []);
 
-	const getItem = useCallback((data: Pokemon[], index: number): Pokemon => {
+	const getItem = useCallback((data: PokemonDB[], index: number): PokemonDB => {
 		return data[index];
 	}, [])
     
@@ -42,12 +42,16 @@ export function List({
 						pokemon={item} 
 						// isFavorite={favoriteIds.findIndex(id => id ===item.order) !== -1}
 						navigation={navigation}
+
 					/>
 				}
-				keyExtractor={({order}) => String(order)}
+				keyExtractor={({id}) => String(id)}
 				getItemCount={getItemCount}
 				getItem={getItem}
-				
+				//Trying to improve performance
+				windowSize={17}
+				maxToRenderPerBatch={50}
+				removeClippedSubviews={true}
 			/>
 		</SafeAreaView>
 	)

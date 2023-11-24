@@ -31,7 +31,7 @@ export function InfoSection({ data }: InfoSectionI) {
             color: TEXT_COLORS.light.subhead,
             // md.sys.typescale.label-small.tracking	-	0.5
           }]}>
-            {" " + `${data.order}`.padStart(4, "0")}
+            {" " + `${data.id}`.padStart(4, "0")}
           </Text>
         </View>
       </View>

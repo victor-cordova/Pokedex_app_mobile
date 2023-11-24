@@ -67,55 +67,67 @@ export async function fetchWholePokemons (): Promise<PokemonList> {
         const data: PokemonList = await response.json();
 
         return data;
-
     } catch (e) {
         console.error(e);
         throw e;
     };
 }
 
-// const savePokemons = ()
-
 const resumeData = (data: PokemonData[], colors: string[]): Pokemon[] => {
-    return data.map((item, index) => {
-        const types = item.types.map(iter => capitalize(iter.type.name));
-        const abilities = item.abilities.map(ability => ability.ability.name);
-        const moves = item.moves.slice(0, 32).map(move => move.move.name);
-        
-        return {
-            name: capitalize(item.name),
-            order: item.id,
-            sprite: item.sprites.other.home.front_default,
-            types,
-            height: item.height,
-            weight: item.weight,
-            abilities: abilities.slice(0, 2),
-            stats: [
-            {
-                name: STATS.HP,
-                stat: item.stats[0].base_stat
-            },
-            {
-                name: STATS.ATK,
-                stat: item.stats[1].base_stat
-            },
-            {
-                name: STATS.DEF,
-                stat: item.stats[2].base_stat
-            },
-            {
-                name: STATS.SPD,
-                stat: item.stats[5].base_stat
-            },
-            {
-                name: STATS.EXP,
-                stat: item.base_experience
-            },
-            ],
-            moves: moves,
-            color: getColor(colors[index]),
-        }
-    })
+	const types: string[] = [];
+	const abilities: string[] = [];
+	const moves: string[] = [];
+	const sprites: string[] = [];
+
+	return data.map((item, index) => {
+		types.length = 0;
+		abilities.length = 0;
+		moves.length = 0;
+		sprites.length = 0;
+
+		types.push(...item.types.map(({type}) => capitalize(type.name)));
+		abilities.push(...item.abilities.map(({ability}) => ability.name));
+		moves.push(...item.moves.slice(0, 32).map(({move}) => move.name));
+
+		if (item.sprites.other.home.front_default) {
+			sprites.push(item.sprites.other.home.front_default);
+		}
+		sprites.push(item.sprites.other["official-artwork"].front_shiny)
+
+		return {
+			name: capitalize(item.name),
+			id: item.id,
+			sprites,
+			types,
+			height: item.height,
+			weight: item.weight,
+			abilities: abilities.slice(0, 2),
+			stats: [
+			{
+				name: STATS.HP,
+				stat: item.stats[0].base_stat
+			},
+			{
+				name: STATS.ATK,
+				stat: item.stats[1].base_stat
+			},
+			{
+				name: STATS.DEF,
+				stat: item.stats[2].base_stat
+			},
+			{
+				name: STATS.SPD,
+				stat: item.stats[5].base_stat
+			},
+			{
+				name: STATS.EXP,
+				stat: item.base_experience
+			},
+			],
+			moves,
+			color: getColor(colors[index]),
+		}
+	})
 }
 
 export async function loadPokemons(nextUrl: string | null): Promise<

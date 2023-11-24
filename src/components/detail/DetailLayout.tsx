@@ -1,17 +1,18 @@
 import { StyleSheet } from "react-native";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Pokemon } from "../../types/pokemon";
+import { Pokemon, PokemonDB } from "../../types/pokemon";
 import { TEXT_COLORS } from "../../utils/constants";
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 import { ImageSection } from "./ImageSection";
 import { InfoSection } from "./InfoSection";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { PokemonsStackParamList } from "../../types/navigation";
+import { parseData } from "../../utils/parseData";
 
 type navigationI = StackNavigationProp<PokemonsStackParamList, "Pokemons", undefined>;
 
 interface DetailLayoutI {
-	pokemon: Pokemon ,
+	pokemon: PokemonDB ,
 	navigation: navigationI,
 	// isFavorite: boolean,
 }
@@ -27,14 +28,16 @@ export function DetailLayout ({
 	  });
 	}, []);
 
+	const dataParsed = parseData(pokemon);
+
   return (
 	<TouchableWithoutFeedback 
-		onPress={() => navigateToPokemonScreen(pokemon.order)} 
+		onPress={() => navigateToPokemonScreen(pokemon.id)} 
 		style={[stylesV2.container, stylesV2.border]}
 	>
 	  <Fragment>
-		<ImageSection data={pokemon}/>
-		<InfoSection data={pokemon}/>
+			<ImageSection data={dataParsed}/>
+			<InfoSection data={dataParsed}/>
 	  </Fragment>
 	</TouchableWithoutFeedback>
   )

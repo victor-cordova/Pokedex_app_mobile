@@ -4,23 +4,28 @@ import { AXIS, Spacer } from "../Spacer";
 import { FavoriteButton } from "./FavoriteButton";
 import { saveFavoriteId, removeFavoriteId, checkIfFavoriteId } from "../../services/favorite";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { IdsDatabase } from "../../db/idsDataBase";
+import { deleteData, getData } from "../../db/pokemonsDataBase";
 
 interface HeaderI {
 	data: Pokemon
 }
+
+const db = IdsDatabase.getInstance();
 
 export function Header({ data }: HeaderI) {
 	const queryClient = useQueryClient();
 
 	const idQuery = useQuery({
 		queryKey: ["favoriteIds", "isFavoriteID"],
-		queryFn: () => checkIfFavoriteId(data.order),
+		queryFn: () => db.checkIfIdExists(data.id),
 	})
 
 	const idMutation = useMutation({
 		mutationFn: (id: number) => {
-			if (idQuery.data) return removeFavoriteId(id);
-			else return saveFavoriteId(id);
+			deleteData();
+			if (idQuery.data) return db.deleteItem(id);
+			else return db.insertData([id]);
 		},
 		onSuccess: () => queryClient.invalidateQueries(["favoriteIds"])
 	})
@@ -47,10 +52,10 @@ export function Header({ data }: HeaderI) {
 				/>
 				
 				<Text style={[styles.order, styles.border]}>
-					{" " + `${data.order}`.padStart(4, "0")}
+					{" " + `${data.id}`.padStart(4, "0")}
 				</Text>
 			</View>
-			<FavoriteButton isFocused={idQuery.data} handleOnPress={() => idMutation.mutate(data.order)}/>
+			<FavoriteButton isFocused={idQuery.data} handleOnPress={() => idMutation.mutate(data.id)}/>
 		</View>
 	)    
 }

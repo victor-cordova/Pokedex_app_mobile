@@ -28,6 +28,7 @@ function Item( {item, index} :ItemI) {
 }
 
 export function MovesSection({abilities, moves}: MovesSectionI) {
+    // return <Text>jeje</Text>
 	return (
 		<View style={[styles.border, styles.container]}>
 			<Text style={[styles.border]}>Abilities</Text>
